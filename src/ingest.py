@@ -14,7 +14,7 @@ import yaml
 load_dotenv(find_dotenv())
 
 # Import config vars
-with open('config.yml', 'r', encoding='utf8') as ymlfile:
+with open('./src/config.yml', 'r', encoding='utf8') as ymlfile:
     cfg = box.Box(yaml.safe_load(ymlfile))
 
 
