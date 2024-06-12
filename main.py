@@ -19,11 +19,12 @@ if __name__ == "__main__":
 
     rag_pipeline = setup_rag_pipeline()
     QUESTION = "What does Rhodes Statue look like?"
-    #Execute the query
+    # Execute the query
     json_response = rag_pipeline.run(({"text_embedder": {"text": QUESTION},
-                                       "prompt_builder": {"question": QUESTION},
+                                       "prompt_builder":
+                                       {"question": QUESTION},
                                        }
-                                    ))
+                                      ))
     end = timeit.default_timer()
 
     replies = json_response['llm']['replies']

@@ -1,6 +1,7 @@
+"""Build teplate for chosen llm model."""
 from haystack.components.builders import PromptBuilder
 
-prompt_template = """
+PROMPT_TEMPLATE = """
 Given the following information, answer the question.
 
 Context:
@@ -12,4 +13,4 @@ Question: {{question}}
 Answer:
 """
 
-prompt_builder = PromptBuilder(template=prompt_template)
+prompt_builder = PromptBuilder(template=PROMPT_TEMPLATE)

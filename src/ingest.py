@@ -1,4 +1,4 @@
-from pathlib import Path
+"""Import files to build rag algorithm."""
 
 from datasets import load_dataset
 from haystack import Document
@@ -23,10 +23,12 @@ document_store = InMemoryDocumentStore()
 dataset = load_dataset("bilgeyucel/seven-wonders", split="train")
 docs = [Document(content=doc["content"], meta=doc["meta"]) for doc in dataset]
 
-doc_embedder = SentenceTransformersDocumentEmbedder(model="sentence-transformers/all-MiniLM-L6-v2")
+doc_embedder = SentenceTransformersDocumentEmbedder(
+    model="sentence-transformers/all-MiniLM-L6-v2")
 doc_embedder.warm_up()
 
-text_embedder = SentenceTransformersTextEmbedder(model="sentence-transformers/all-MiniLM-L6-v2")
+text_embedder = SentenceTransformersTextEmbedder(
+    model="sentence-transformers/all-MiniLM-L6-v2")
 retriever = InMemoryEmbeddingRetriever(document_store)
 
 docs_with_embeddings = doc_embedder.run(docs)
