@@ -1,20 +1,29 @@
 # haystack-train-rag
 
-A toy AI training project that uses RAG algorithm within haystack framework. It started as a training project based on a training notebook [] as a simple Q&A system to answer for wonders of the ancient world. Author's purpose is to grow it into a professional project with mlops, test functionality, dockerizing, web/ui interface, etc.
+A toy AI project that uses a RAG algorithm with a haystack framework. It started as a training project based on a notebook [1] as a simple Q&A system to answer questions for seven wonders of the ancient world. Author's purpose was to grow it into a professional project with mlops, test functionality, dockerizing, web/ui interface, etc solving more complex problems with the rag algorithm.
+
+
+## Requirements
+
+To run this project, you will need a OPENAI API KEY token, which should be set in your local environment as follows:
+```
+OPENAI_API_KEY=''
+```
+
 
 ## Installation, Setup and Run
 
-To run the project in your local system, you need to install the project first:
+1. To run the project in your local system, you need to clone and install the project first:
 ```
 git clone https://github.com/vladimirkanchev/haystack-train-rag
 cd haystack-train-rag
 pip install -r requirements.txt
 ```
-Before you start the Q&A program locally, run the script to convert PDF documents to vector embeddings and save them into haystack storage:
+2. Before you start the Q&A program locally, run the script to convert PDF documents to vector embeddings and save them into the haystack storage:
 ```
 python src/ingest.py
 ```
-Then run the following script to process inquiries about a certain ancient world wonder and fetch the answer:
+3. Then run the following script to process inquiries about a certain ancient world wonder and fetch the answer:
 ```
 python main.py "What does Rhodes Statue look like?"
 ```
@@ -42,6 +51,7 @@ Some of the python packages which are part of our project:
 - tqdm==4.66.4
 - transformers==4.41.2
 
+
 ## Results and Evaluations
 
 At the current moment, we have implemented only a simple RAG algorithm. We are also aware we need a solid test algorithm.
@@ -54,3 +64,12 @@ Our next tasks are as follows:
 - apply own preprocessing algorithm
 - apply dockerization
 - add ui - streamlit
+
+
+## Who wants to contribute
+
+Contributions, issues and feature requests will be welcomed at the later stage of project development. 
+
+
+## Reference
+[1] https://haystack.deepset.ai/tutorials/27_first_rag_pipeline
