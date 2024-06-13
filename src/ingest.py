@@ -27,7 +27,7 @@ def load_data_no_preprocessing():
     doc_embedder = SentenceTransformersDocumentEmbedder(
         model=cfg.EMBEDDINGS)
     doc_embedder.warm_up()
-
+    print(type(dataset))
     # text_embedder = SentenceTransformersTextEmbedder(
     #    model=cfg.EMBEDDINGS)
     # retriever = InMemoryEmbeddingRetriever(document_store)
