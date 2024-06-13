@@ -10,8 +10,10 @@ from haystack.components.retrievers.in_memory import InMemoryEmbeddingRetriever
 import box
 import yaml
 
-from model.llm import setup_llm
-from model.prompts import PROMPT_TEMPLATE
+from llm import setup_llm
+from prompts import PROMPT_TEMPLATE
+from ingest import load_data_no_preprocessing
+
 
 with open('./src/config.yml', 'r', encoding='utf8') as ymlfile:
     cfg = box.Box(yaml.safe_load(ymlfile))
@@ -34,8 +36,7 @@ def setup_retriever(doc_store):
 
 def setup_rag_pipeline():
     """Build basic rag haystack pipeline."""
-    document_store = InMemoryDocumentStore()
-    # document_store.update_embeddings(embedding_0retriever)
+    document_store = load_data_no_preprocessing()
 
     
     prompt = setup_prompt()

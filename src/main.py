@@ -3,7 +3,7 @@ import argparse
 import timeit
 from dotenv import load_dotenv
 
-from model.wrapper import setup_rag_pipeline
+from wrapper import setup_rag_pipeline
 
 load_dotenv()
 

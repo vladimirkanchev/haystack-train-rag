@@ -33,6 +33,7 @@ def load_data_no_preprocessing():
 
     docs_with_embeddings = doc_embedder.run(docs)
     document_store.write_documents(docs_with_embeddings["documents"])
+    return document_store
 
 
 
