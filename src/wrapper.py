@@ -1,19 +1,15 @@
 """Contain wrapper function of separater rag pipeline components."""
-import sys 
-
 from haystack import Pipeline
 from haystack.components.builders import PromptBuilder
 from haystack.components.embedders import SentenceTransformersTextEmbedder
-from haystack.document_stores.in_memory import InMemoryDocumentStore
 from haystack.components.retrievers.in_memory import InMemoryEmbeddingRetriever
 
 import box
 import yaml
 
-from llm import setup_llm
-from prompts import PROMPT_TEMPLATE
-from ingest import load_data_no_preprocessing
-
+from .llm import setup_llm
+from .prompts import PROMPT_TEMPLATE
+from .ingest import load_data_no_preprocessing
 
 with open('./src/config.yml', 'r', encoding='utf8') as ymlfile:
     cfg = box.Box(yaml.safe_load(ymlfile))
@@ -38,7 +34,6 @@ def setup_rag_pipeline():
     """Build basic rag haystack pipeline."""
     document_store = load_data_no_preprocessing()
 
-    
     prompt = setup_prompt()
     llm = setup_llm(cfg.LLM_MODEL)
     text_embedder = setup_embedder(cfg.EMBEDDINGS)

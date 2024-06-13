@@ -1,3 +1,4 @@
+"""Constants - project parameters"""
 DATA_PATH: 'data/'
 DATA_SET: 'bilgeyucel/seven-wonders'
 EMBEDDINGS: 'sentence-transformers/all-MiniLM-L6-v2'

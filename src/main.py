@@ -1,9 +1,10 @@
 """Main entry point for the rag algorithm."""
 import argparse
 import timeit
+
 from dotenv import load_dotenv
 
-from wrapper import setup_rag_pipeline
+from .wrapper import setup_rag_pipeline
 
 load_dotenv()
 
@@ -19,7 +20,7 @@ if __name__ == "__main__":
 
     rag_pipeline = setup_rag_pipeline()
     QUESTION = args.input
-    #"What does Rhodes Statue look like?"
+
     # Execute the query
     json_response = rag_pipeline.run(({"text_embedder": {"text": QUESTION},
                                        "prompt_builder":
@@ -34,5 +35,5 @@ if __name__ == "__main__":
         ANSWER = replies[0].strip()
 
     print(f'\nAnswer:\n {ANSWER}')
-    print('='*50)
+    print('=' * 50)
     print(f"Time to retrieve answer: {end - start}")
