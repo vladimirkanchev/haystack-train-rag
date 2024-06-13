@@ -9,7 +9,7 @@ load_dotenv()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('input',
+    parser.add_argument('--input',
                         type=str,
                         default='What does Rhodes Statue look like?',
                         help='Enter the query to pass into the LLM')
@@ -18,7 +18,8 @@ if __name__ == "__main__":
     start = timeit.default_timer()
 
     rag_pipeline = setup_rag_pipeline()
-    QUESTION = "What does Rhodes Statue look like?"
+    QUESTION = args.input
+    #"What does Rhodes Statue look like?"
     # Execute the query
     json_response = rag_pipeline.run(({"text_embedder": {"text": QUESTION},
                                        "prompt_builder":

@@ -1,4 +1,6 @@
 """Contain wrapper function of separater rag pipeline components."""
+import sys 
+
 from haystack import Pipeline
 from haystack.components.builders import PromptBuilder
 from haystack.components.embedders import SentenceTransformersTextEmbedder
@@ -10,7 +12,6 @@ import yaml
 
 from model.llm import setup_llm
 from model.prompts import PROMPT_TEMPLATE
-
 
 with open('./src/config.yml', 'r', encoding='utf8') as ymlfile:
     cfg = box.Box(yaml.safe_load(ymlfile))
@@ -34,7 +35,9 @@ def setup_retriever(doc_store):
 def setup_rag_pipeline():
     """Build basic rag haystack pipeline."""
     document_store = InMemoryDocumentStore()
+    # document_store.update_embeddings(embedding_0retriever)
 
+    
     prompt = setup_prompt()
     llm = setup_llm(cfg.LLM_MODEL)
     text_embedder = setup_embedder(cfg.EMBEDDINGS)
