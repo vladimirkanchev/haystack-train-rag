@@ -18,18 +18,28 @@ with open('./src/config.yml', 'r', encoding='utf8') as ymlfile:
     cfg = box.Box(yaml.safe_load(ymlfile))
 
 
-input_dir = cfg.DATA_PATH
-document_store = InMemoryDocumentStore()
-dataset = load_dataset("bilgeyucel/seven-wonders", split="train")
-docs = [Document(content=doc["content"], meta=doc["meta"]) for doc in dataset]
+def load_data_no_preprocessing():
+    """Load preprocessed dataset of seven wonders."""
+    document_store = InMemoryDocumentStore()
+    dataset = load_dataset(cfg.DATA_SET, split="train")
+    docs = [Document(content=doc["content"], meta=doc["meta"]) for doc in dataset]
 
-doc_embedder = SentenceTransformersDocumentEmbedder(
-    model="sentence-transformers/all-MiniLM-L6-v2")
-doc_embedder.warm_up()
+    doc_embedder = SentenceTransformersDocumentEmbedder(
+        model=cfg.EMBEDDINGS)
+    doc_embedder.warm_up()
 
-text_embedder = SentenceTransformersTextEmbedder(
-    model="sentence-transformers/all-MiniLM-L6-v2")
-retriever = InMemoryEmbeddingRetriever(document_store)
+    # text_embedder = SentenceTransformersTextEmbedder(
+    #    model=cfg.EMBEDDINGS)
+    # retriever = InMemoryEmbeddingRetriever(document_store)
 
-docs_with_embeddings = doc_embedder.run(docs)
-document_store.write_documents(docs_with_embeddings["documents"])
+    docs_with_embeddings = doc_embedder.run(docs)
+    document_store.write_documents(docs_with_embeddings["documents"])
+
+
+def main():
+    """"Start load data with/wo preprocessing algorithm."""
+    load_data_no_preprocessing()
+
+
+if __name__ == "__main__":
+    main()
