@@ -4,7 +4,7 @@ import timeit
 
 from dotenv import load_dotenv
 
-from .wrapper import setup_rag_pipeline
+from wrapper import setup_rag_pipeline
 
 load_dotenv()
 
