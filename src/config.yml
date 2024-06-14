@@ -2,4 +2,7 @@ DATA_PATH: 'data/'
 DATA_SET: 'bilgeyucel/seven-wonders'
 EMBEDDINGS: 'sentence-transformers/all-MiniLM-L6-v2'
 LLM_MODEL: 'gpt-3.5-turbo'
-MEDIA_PATH: './_media/image.png'
+PIPELINE_PATH: './_media/pipeline.png'
+TYPE_RETRIEVAL: 'sparse' # 'dense'  - sentence transformers model
+                         # 'sparse' - bm25
+                         # 'hybrid' - both of dense and sparse
