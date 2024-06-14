@@ -1,12 +1,12 @@
 """Main entry point for the rag algorithm."""
 import argparse
 import timeit
-from haystack.components.builders.answer_builder import AnswerBuilder
 
 from dotenv import load_dotenv
-import box, yaml
+import box
+import yaml
 
-from wrapper import setup_rag_sparse_pipeline, setup_rag_dense_pipeline
+from .wrapper import setup_rag_sparse_pipeline, setup_rag_dense_pipeline
 
 load_dotenv()
 
@@ -31,9 +31,10 @@ if __name__ == "__main__":
                                            {"text": QUESTION},
                                            "prompt_builder":
                                            {"question": QUESTION},
-                                          }
-                                        ))
-        replies = json_response['llm']['replies']
+                                           }
+                                          )
+                                         )
+        REPLIES = json_response['llm']['replies']
     elif cfg.TYPE_RETRIEVAL == 'sparse':
         rag_pipeline = setup_rag_sparse_pipeline()
         json_response = rag_pipeline.run(
@@ -42,14 +43,14 @@ if __name__ == "__main__":
                 "prompt_builder": {"question": QUESTION},
             }
         )
-        replies = json_response['llm']['replies']
-
+        REPLIES = json_response['llm']['replies']
+    else:
+        REPLIES = None
     end = timeit.default_timer()
 
-    
     ANSWER = 'No answer found'
-    if replies:
-        ANSWER = replies[0].strip()
+    if REPLIES:
+        ANSWER = REPLIES[0].strip()
 
     print(f'\nAnswer:\n {ANSWER}')
     print('=' * 50)
