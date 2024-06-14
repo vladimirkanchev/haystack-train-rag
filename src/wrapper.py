@@ -7,9 +7,9 @@ from haystack.components.retrievers.in_memory import InMemoryEmbeddingRetriever
 import box
 import yaml
 
-from .llm import setup_llm
-from .prompts import PROMPT_TEMPLATE
-from .ingest import load_data_no_preprocessing
+from llm import setup_llm
+from prompts import PROMPT_TEMPLATE
+from ingest import load_data_no_preprocessing
 
 with open('./src/config.yml', 'r', encoding='utf8') as ymlfile:
     cfg = box.Box(yaml.safe_load(ymlfile))
@@ -50,5 +50,6 @@ def setup_rag_pipeline():
                          "retriever.query_embedding")
     rag_pipeline.connect("retriever", "prompt_builder.documents")
     rag_pipeline.connect("prompt_builder", "llm")
+    rag_pipeline.draw(path=cfg.PIPELINE_PATH)
 
     return rag_pipeline
