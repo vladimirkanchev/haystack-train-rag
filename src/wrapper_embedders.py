@@ -1,4 +1,4 @@
-""" """
+"""Contain wrappers of embedder components of tne rag pipeline."""
 from haystack.components.embedders import SentenceTransformersTextEmbedder
 
 

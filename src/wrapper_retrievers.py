@@ -1,9 +1,9 @@
-""""""
+"""Contain wrappers of retriever components of tne rag pipeline."""
 from haystack.components.retrievers.in_memory import InMemoryBM25Retriever
 from haystack.components.retrievers.in_memory import InMemoryEmbeddingRetriever
 
 import box
-import yaml 
+import yaml
 
 with open('./src/config.yml', 'r', encoding='utf8') as ymlfile:
     cfg = box.Box(yaml.safe_load(ymlfile))
