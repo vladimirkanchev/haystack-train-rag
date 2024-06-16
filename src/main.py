@@ -2,15 +2,17 @@
 import argparse
 import timeit
 
+from dotenv import find_dotenv
 from dotenv import load_dotenv
+
 import box
 import yaml
 
-from .wrapper import setup_rag_sparse_pipeline
-from .wrapper import setup_rag_dense_pipeline
-from .wrapper import setup_rag_hybrid_pipeline
+from wrapper import setup_rag_sparse_pipeline
+from wrapper import setup_rag_dense_pipeline
+from wrapper import setup_rag_hybrid_pipeline
 
-load_dotenv()
+load_dotenv(find_dotenv())
 
 with open('./src/config.yml', 'r', encoding='utf8') as ymlfile:
     cfg = box.Box(yaml.safe_load(ymlfile))
@@ -54,7 +56,8 @@ if __name__ == "__main__":
                                 "bm25_retriever": {"query": QUESTION},
                                 "document_joiner": {"top_k": 5},
                                 "ranker": {"query": QUESTION},
-                                "prompt_builder": {"question": QUESTION}
+                                "prompt_builder": {"question": QUESTION},
+                                "llm":{"generation_kwargs": {"max_new_tokens": 500}}
                             }
         )
         print(json_response)

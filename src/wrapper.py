@@ -11,9 +11,9 @@ from haystack.components.retrievers.in_memory import InMemoryEmbeddingRetriever
 import box
 import yaml
 
-from .llm import setup_llm
-from .prompts import PROMPT_TEMPLATE
-from .ingest import load_data_no_preprocessing
+from llm import setup_single_llm
+from prompts import PROMPT_TEMPLATE
+from ingest import load_data_no_preprocessing
 
 with open('./src/config.yml', 'r', encoding='utf8') as ymlfile:
     cfg = box.Box(yaml.safe_load(ymlfile))
@@ -50,7 +50,7 @@ def setup_rag_dense_pipeline():
     """Build basic rag haystack pipeline."""
     doc_store = load_data_no_preprocessing()
     prompt = setup_prompt()
-    llm = setup_llm(cfg.LLM_MODEL)
+    llm = setup_single_llm(cfg.LLM_MODEL)
     text_embedder = setup_embedder(cfg.EMBEDDINGS)
     retriever = setup_single_retriever(doc_store)
 
@@ -74,7 +74,7 @@ def setup_rag_sparse_pipeline():
     """Build basic rag haystack pipeline."""
     doc_store = load_data_no_preprocessing()
     prompt = setup_prompt()
-    llm = setup_llm(cfg.LLM_MODEL)
+    llm = setup_single_llm(cfg.LLM_MODEL)
     bm25_retriever = setup_single_retriever(doc_store)
 
     rag_pipeline = Pipeline()
@@ -94,7 +94,7 @@ def setup_rag_hybrid_pipeline():
     """Build basic rag haystack pipeline."""
     doc_store = load_data_no_preprocessing()
     prompt = setup_prompt()
-    llm = setup_llm(cfg.LLM_MODEL)
+    llm = setup_single_llm(cfg.LLM_MODEL)
     text_embedder = setup_embedder(cfg.EMBEDDINGS)
     embedding_retriever, bm25_retriever = setup_hyrbrid_retriever(doc_store)
 
@@ -109,6 +109,7 @@ def setup_rag_hybrid_pipeline():
     hybrid_pipeline.add_component("ranker", ranker)
     hybrid_pipeline.add_component("prompt_builder", prompt)
     hybrid_pipeline.add_component("llm", llm)
+    print(llm)
 
     # Now, connect the components to each other
     hybrid_pipeline.connect("text_embedder",
@@ -118,7 +119,7 @@ def setup_rag_hybrid_pipeline():
                             "document_joiner.documents")
     hybrid_pipeline.connect("document_joiner", "ranker")
     hybrid_pipeline.connect("ranker", "prompt_builder.documents")
-    hybrid_pipeline.connect("prompt_builder", "llm")
+    hybrid_pipeline.connect("prompt_builder.prompt", "llm.prompt")
     hybrid_pipeline.draw(path=cfg.PIPELINE_PATH)
 
     return hybrid_pipeline
