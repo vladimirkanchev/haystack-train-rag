@@ -11,9 +11,9 @@ from haystack.components.retrievers.in_memory import InMemoryEmbeddingRetriever
 import box
 import yaml
 
-from llm import setup_single_llm
-from prompts import PROMPT_TEMPLATE
-from ingest import load_data_no_preprocessing
+from .llm import setup_single_llm
+from .prompts import PROMPT_TEMPLATE
+from .ingest import load_data_no_preprocessing
 
 with open('./src/config.yml', 'r', encoding='utf8') as ymlfile:
     cfg = box.Box(yaml.safe_load(ymlfile))
