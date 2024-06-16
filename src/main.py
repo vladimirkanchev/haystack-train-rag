@@ -6,17 +6,19 @@ from dotenv import load_dotenv
 import box
 import yaml
 
-from .wrapper import setup_rag_sparse_pipeline, setup_rag_dense_pipeline
+from .wrapper import setup_rag_sparse_pipeline
+from .wrapper import setup_rag_dense_pipeline
+from .wrapper import setup_rag_hybrid_pipeline
 
 load_dotenv()
 
 with open('./src/config.yml', 'r', encoding='utf8') as ymlfile:
     cfg = box.Box(yaml.safe_load(ymlfile))
 
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--input',
-                        type=str,
+    parser.add_argument('--input', type=str,
                         default='What does Rhodes Statue look like?',
                         help='Enter the query to pass into the LLM')
     args = parser.parse_args()
@@ -44,10 +46,23 @@ if __name__ == "__main__":
             }
         )
         REPLIES = json_response['llm']['replies']
+    elif cfg.TYPE_RETRIEVAL == 'hybrid':
+        rag_pipeline = setup_rag_hybrid_pipeline()
+        json_response = rag_pipeline.run(
+                            {
+                                "text_embedder": {"text": QUESTION},
+                                "bm25_retriever": {"query": QUESTION},
+                                "document_joiner": {"top_k": 5},
+                                "ranker": {"query": QUESTION},
+                                "prompt_builder": {"question": QUESTION}
+                            }
+        )
+        print(json_response)
+
     else:
         REPLIES = None
     end = timeit.default_timer()
-
+    REPLIES = None
     ANSWER = 'No answer found'
     if REPLIES:
         ANSWER = REPLIES[0].strip()
