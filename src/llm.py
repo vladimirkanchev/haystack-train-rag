@@ -15,9 +15,9 @@ with open('./src/config.yml', 'r', encoding='utf8') as ymlfile:
 
 def setup_single_llm(model_name):
     """Build single llm model for RAG algorithm."""
-    if model_name == 'openai':
+    if cfg.LLM_TYPE == 'openai':
         return OpenAIGenerator(model=model_name)
-    if model_name == 'opensource':
+    if cfg.LLM_TYPE == 'opensource':
         return HuggingFaceTGIGenerator(
             model=model_name,
             token=Secret.from_env_var("HF_API_TOKEN"))

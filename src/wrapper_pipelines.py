@@ -1,49 +1,21 @@
 """Contain wrapper function of separater rag pipeline components."""
 from haystack import Pipeline
-from haystack.components.builders import PromptBuilder
-from haystack.components.embedders import SentenceTransformersTextEmbedder
 from haystack.components.joiners import DocumentJoiner
 from haystack.components.rankers import TransformersSimilarityRanker
-from haystack.components.retrievers.in_memory import InMemoryBM25Retriever
-from haystack.components.retrievers.in_memory import InMemoryEmbeddingRetriever
-
 
 import box
 import yaml
 
-from .llm import setup_single_llm
-from .prompts import PROMPT_TEMPLATE
-from .ingest import load_data_no_preprocessing
+from llm import setup_single_llm
+from ingest import load_data_no_preprocessing
+
+from wrapper_embedders import setup_embedder
+from wrapper_prompts import setup_prompt
+from wrapper_retrievers import setup_single_retriever
+from wrapper_retrievers import setup_hyrbrid_retriever
 
 with open('./src/config.yml', 'r', encoding='utf8') as ymlfile:
     cfg = box.Box(yaml.safe_load(ymlfile))
-
-
-def setup_prompt():
-    """Render a prompt template."""
-    return PromptBuilder(template=PROMPT_TEMPLATE)
-
-
-def setup_embedder(model_name):
-    """Transform a string into a vector."""
-    return SentenceTransformersTextEmbedder(model=model_name)
-
-
-def setup_single_retriever(doc_store):
-    """Build embedding or sparse(bm25)-based retreiver."""
-    retriever = None
-    if cfg.TYPE_RETRIEVAL == 'dense':
-        retriever = InMemoryEmbeddingRetriever(doc_store)
-    elif cfg.TYPE_RETRIEVAL == 'sparse':
-        retriever = InMemoryBM25Retriever(document_store=doc_store)
-    return retriever
-
-
-def setup_hyrbrid_retriever(doc_store):
-    """Build embedding and sparse(bm25)-based retreiver."""
-    dense_retriever = InMemoryEmbeddingRetriever(doc_store)
-    sparse_retriever = InMemoryBM25Retriever(doc_store)
-    return dense_retriever, sparse_retriever
 
 
 def setup_rag_dense_pipeline():

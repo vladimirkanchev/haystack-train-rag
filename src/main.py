@@ -2,15 +2,14 @@
 import argparse
 import timeit
 
+import box
 from dotenv import find_dotenv
 from dotenv import load_dotenv
-
-import box
 import yaml
 
-from .wrapper import setup_rag_sparse_pipeline
-from .wrapper import setup_rag_dense_pipeline
-from .wrapper import setup_rag_hybrid_pipeline
+from wrapper_pipelines import setup_rag_sparse_pipeline
+from wrapper_pipelines import setup_rag_dense_pipeline
+from wrapper_pipelines import setup_rag_hybrid_pipeline
 
 load_dotenv(find_dotenv())
 
