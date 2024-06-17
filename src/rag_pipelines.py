@@ -1,5 +1,6 @@
 """Contain wrapper function of separater rag pipeline components."""
 from haystack import Pipeline
+from haystack.components.builders.answer_builder import AnswerBuilder
 from haystack.components.joiners import DocumentJoiner
 from haystack.components.rankers import TransformersSimilarityRanker
 
@@ -81,7 +82,8 @@ def setup_rag_hybrid_pipeline():
     hybrid_pipeline.add_component("ranker", ranker)
     hybrid_pipeline.add_component("prompt_builder", prompt)
     hybrid_pipeline.add_component("llm", llm)
-    print(llm)
+    hybrid_pipeline.add_component(instance=AnswerBuilder(), name="answer_builder")
+  
 
     # Now, connect the components to each other
     hybrid_pipeline.connect("text_embedder",
@@ -92,6 +94,9 @@ def setup_rag_hybrid_pipeline():
     hybrid_pipeline.connect("document_joiner", "ranker")
     hybrid_pipeline.connect("ranker", "prompt_builder.documents")
     hybrid_pipeline.connect("prompt_builder.prompt", "llm.prompt")
+    hybrid_pipeline.connect("llm.replies", "answer_builder.replies")
+    hybrid_pipeline.connect("llm.meta", "answer_builder.meta")
+    hybrid_pipeline.connect("ranker", "answer_builder.documents")
     hybrid_pipeline.draw(path=cfg.PIPELINE_PATH)
 
     return hybrid_pipeline

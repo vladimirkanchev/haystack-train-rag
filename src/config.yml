@@ -9,12 +9,18 @@ CROSS_ENC: "BAAI/bge-small-en-v1.5"
 # huggface - 'meta-llama/Llama-2-7b-chat-hf'
 #          - TinyLlama 'TinyLlama-1.1B-Chat-v1.0'
 #            "mistralai/Mixtral-8x7B-Instruct-v0.1"
-LLM_MODEL: 'HuggingFaceH4/zephyr-7b-beta'
+#            'HuggingFaceH4/zephyr-7b-beta'
+LLM_MODEL: 'gpt-3.5-turbo'
 # openai - openai as gpt models
 # 'opensource' - opensource as llama family of models loaded from huggingface
-LLM_TYPE: 'opensource'
+LLM_TYPE: 'openai'
 PIPELINE_PATH: './_media/pipeline.png'
 # 'dense'-sentence transformers model
 # 'sparse'-bm25
 # 'hybrid'-both of dense and sparse
 TYPE_RETRIEVAL: 'hybrid'
+# true - if we want to evaluate the RAG algorithm final result with llm model
+# false - if we do not want to evaluate the RAG algorithm final result
+RAG_EVAL: true
+# gpt-4 preferably to use: accurate but expensive evaluation llm model
+EVAL_MODEL: 'gpt-3.5-turbo'
