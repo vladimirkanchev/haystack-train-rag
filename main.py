@@ -7,12 +7,12 @@ from dotenv import find_dotenv
 from dotenv import load_dotenv
 import yaml
 
-from src.rag_pipelines import setup_rag_sparse_pipeline
-from src.rag_pipelines import setup_rag_dense_pipeline
-from src.rag_pipelines import setup_rag_hybrid_pipeline
+from .src.rag_pipelines import setup_rag_sparse_pipeline
+from .src.rag_pipelines import setup_rag_dense_pipeline
+from .src.rag_pipelines import setup_rag_hybrid_pipeline
 
-from src.utils import create_gt_answer_data, create_question_data
-from src.evaluate import evaluate_rag, build_rag_eval_report
+from .src.utils import create_gt_answer_data, create_question_data
+from .src.evaluate import evaluate_rag, build_rag_eval_report
 
 load_dotenv(find_dotenv())
 
@@ -26,7 +26,7 @@ if __name__ == "__main__":
                         default='What does Rhodes Statue look like?',
                         help='Enter the query to pass into the LLM')
     args = parser.parse_args()
-    QUESTION = args.input
+    QUESTION = create_question_data()
     start = timeit.default_timer()
     rag_answers = []
     retrieved_docs = []
@@ -36,26 +36,26 @@ if __name__ == "__main__":
     if cfg.TYPE_RETRIEVAL == 'dense':
         rag_pipeline = setup_rag_dense_pipeline()
         # Execute the query
-        json_response = rag_pipeline.run(({"text_embedder":
-                                           {"text": QUESTION},
-                                           "prompt_builder":
-                                           {"question": QUESTION},
-                                           }
-                                          )
+        response_rag = rag_pipeline.run(({"text_embedder":
+                                          {"text": QUESTION},
+                                          "prompt_builder":
+                                          {"question": QUESTION},
+                                          }
                                          )
-        REPLIES = json_response['llm']['replies']
+                                        )
+        REPLIES = response_rag['llm']['replies']
     elif cfg.TYPE_RETRIEVAL == 'sparse':
         rag_pipeline = setup_rag_sparse_pipeline()
-        json_response = rag_pipeline.run(
+        response_rag = rag_pipeline.run(
             {
                 "retriever": {"query": QUESTION},
                 "prompt_builder": {"question": QUESTION},
             }
         )
-        REPLIES = json_response['llm']['replies']
+        REPLIES = response_rag['llm']['replies']
     elif cfg.TYPE_RETRIEVAL == 'hybrid':
         rag_pipeline = setup_rag_hybrid_pipeline()
-        response = rag_pipeline.run(
+        response_rag = rag_pipeline.run(
             {
                 "text_embedder": {"text": QUESTION},
                 "bm25_retriever": {"query": QUESTION},
@@ -65,25 +65,23 @@ if __name__ == "__main__":
                 "answer_builder": {"query": QUESTION}
             }
         )
-     
-
     else:
-        REPLIES = None
+        response_rag = None
     end = timeit.default_timer()
-    # REPLIES = response['llm']['replies'][0]
-    rag_answers.append(response["answer_builder"]["answers"][0].data)
-    retrieved_docs.append(response["answer_builder"]["answers"][0].documents)
+    # REPLIES = response_rag['llm']['replies'][0]
+    rag_answers.append(response_rag["answer_builder"]["answers"][0].data)
+    retrieved_docs.append(response_rag["answer_builder"][
+        "answers"][0].documents)
     rag_questions.append(QUESTION)
     print(type(gt_answers))
     print(type(gt_answers[0]))
     print(gt_answers[0])
-    inputs, results = evaluate_rag(QUESTION, rag_answers, 
+    inputs, results = evaluate_rag(QUESTION, rag_answers,
                                    gt_answers, retrieved_docs)
     build_rag_eval_report(inputs, results)
     ANSWER = 'No answer found'
-    if REPLIES:
-        ANSWER = REPLIES[0].strip()
-
+    # if REPLIES:
+    #    ANSWER = REPLIES[0].strip()
     print(f'\nAnswer:\n {ANSWER}')
     print('=' * 50)
     print(f"Time to retrieve answer: {end - start}")

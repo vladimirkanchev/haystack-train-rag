@@ -1,3 +1,4 @@
+"""Contain evaluation haystack pipelines of the rag algorithm."""
 from haystack import Pipeline
 from haystack.components.evaluators.document_mrr import DocumentMRREvaluator
 from haystack.components.evaluators.faithfulness import FaithfulnessEvaluator
@@ -17,5 +18,5 @@ def evaluate_gt_pipeline():
     eval_pipeline.add_component("faithfulness", FaithfulnessEvaluator())
     eval_pipeline.add_component("sas_evaluator",
                                 SASEvaluator(model=cfg.EMBEDDINGS))
-    
+
     return eval_pipeline

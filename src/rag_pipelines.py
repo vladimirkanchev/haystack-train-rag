@@ -82,8 +82,8 @@ def setup_rag_hybrid_pipeline():
     hybrid_pipeline.add_component("ranker", ranker)
     hybrid_pipeline.add_component("prompt_builder", prompt)
     hybrid_pipeline.add_component("llm", llm)
-    hybrid_pipeline.add_component(instance=AnswerBuilder(), name="answer_builder")
-  
+    hybrid_pipeline.add_component(instance=AnswerBuilder(),
+                                  name="answer_builder")
 
     # Now, connect the components to each other
     hybrid_pipeline.connect("text_embedder",
