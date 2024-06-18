@@ -8,7 +8,6 @@ import box
 from dotenv import load_dotenv, find_dotenv
 import yaml
 
-document_store = InMemoryDocumentStore()
 
 load_dotenv(find_dotenv())
 # Import config vars
@@ -18,6 +17,7 @@ with open('./src/config.yml', 'r', encoding='utf8') as ymlfile:
 
 def load_data_no_preprocessing():
     """Load preprocessed dataset of seven wonders."""
+    document_store = InMemoryDocumentStore()
     dataset = load_dataset(cfg.DATA_SET, split="train")
     docs = [Document(content=doc["content"], meta=doc["meta"])
             for doc in dataset]
@@ -45,6 +45,7 @@ def load_data_no_preprocessing():
         final_docs = None
 
     if final_docs:
+        #document_store.delete_documents()
         document_store.write_documents(final_docs)
 
     return document_store

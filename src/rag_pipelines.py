@@ -100,3 +100,15 @@ def setup_rag_hybrid_pipeline():
     hybrid_pipeline.draw(path=cfg.PIPELINE_PATH)
 
     return hybrid_pipeline
+
+
+def select_rag_pipeline():
+    """Select type of pipeline to load."""
+    if cfg.TYPE_RETRIEVAL == 'dense':
+        rag_pipeline = setup_rag_dense_pipeline()
+    elif cfg.TYPE_RETRIEVAL == 'sparse':
+        rag_pipeline = setup_rag_sparse_pipeline()
+    elif cfg.TYPE_RETRIEVAL == 'hybrid':
+        rag_pipeline = setup_rag_hybrid_pipeline()  
+
+    return rag_pipeline

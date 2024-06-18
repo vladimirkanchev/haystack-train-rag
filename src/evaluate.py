@@ -10,13 +10,14 @@ from .eval_pipelines import evaluate_gt_pipeline
 with open('./src/config.yml', 'r', encoding='utf8') as ymlfile:
     cfg = box.Box(yaml.safe_load(ymlfile))
 
+
 def evaluate_rag(query, rag_answers,
                  gt_answers, retrieved_docs):
     """Evaluate rag algorithm with ground truth data."""
     eval_pipeline = evaluate_gt_pipeline()
 
     results = eval_pipeline.run({
-        "faithfulness": {"questions": [query],
+        "faithfulness": {"questions": query,
                          "contexts":
                          retrieved_docs,
                          "predicted_answers": rag_answers},
@@ -25,7 +26,7 @@ def evaluate_rag(query, rag_answers,
     })
 
     inputs = {
-        "question": [query],
+        "question": query,
         "contexts": retrieved_docs,
         "answer": gt_answers,
         "predicted_answer": rag_answers,
