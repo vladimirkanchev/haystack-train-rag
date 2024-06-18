@@ -10,7 +10,7 @@ with open('./src/config.yml', 'r', encoding='utf8') as ymlfile:
     cfg = box.Box(yaml.safe_load(ymlfile))
 
 
-def evaluate_gt_pipeline():
+def evaluate_gt_pipeline() -> Pipeline:
     """Build basic evaluation haystack pipeline with ground truth data."""
     eval_pipeline = Pipeline()
     eval_pipeline.add_component("faithfulness", FaithfulnessEvaluator())

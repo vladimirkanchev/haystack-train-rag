@@ -2,6 +2,6 @@
 from haystack.components.embedders import SentenceTransformersTextEmbedder
 
 
-def setup_embedder(model_name):
+def setup_embedder(model_name: str) -> SentenceTransformersTextEmbedder:
     """Transform a string into a vector."""
     return SentenceTransformersTextEmbedder(model=model_name)

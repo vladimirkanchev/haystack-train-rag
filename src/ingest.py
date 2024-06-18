@@ -45,7 +45,6 @@ def load_data_no_preprocessing():
         final_docs = None
 
     if final_docs:
-        # document_store.delete_documents()
         document_store.write_documents(final_docs)
 
     return document_store

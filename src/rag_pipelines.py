@@ -19,7 +19,7 @@ with open('./src/config.yml', 'r', encoding='utf8') as ymlfile:
     cfg = box.Box(yaml.safe_load(ymlfile))
 
 
-def setup_rag_dense_pipeline():
+def setup_rag_dense_pipeline() -> Pipeline:
     """Build basic rag haystack pipeline."""
     doc_store = load_data_no_preprocessing()
     prompt = setup_prompt()
@@ -27,52 +27,52 @@ def setup_rag_dense_pipeline():
     text_embedder = setup_embedder(cfg.EMBEDDINGS)
     retriever = setup_single_retriever(doc_store)
 
-    rag_pipeline = Pipeline()
-    rag_pipeline.add_component("text_embedder", text_embedder)
-    rag_pipeline.add_component("retriever", retriever)
-    rag_pipeline.add_component("prompt_builder", prompt)
-    rag_pipeline.add_component("llm", llm)
-    rag_pipeline.add_component(instance=AnswerBuilder(),
-                                  name="answer_builder")
+    dense_pipeline = Pipeline()
+    dense_pipeline.add_component("text_embedder", text_embedder)
+    dense_pipeline.add_component("retriever", retriever)
+    dense_pipeline.add_component("prompt_builder", prompt)
+    dense_pipeline.add_component("llm", llm)
+    dense_pipeline.add_component(instance=AnswerBuilder(),
+                                 name="answer_builder")
 
     # Now, connect the components to each other
-    rag_pipeline.connect("text_embedder.embedding",
-                         "retriever.query_embedding")
-    rag_pipeline.connect("retriever", "prompt_builder.documents")
-    rag_pipeline.connect("prompt_builder", "llm")
-    rag_pipeline.connect("llm.replies", "answer_builder.replies")
-    rag_pipeline.connect("llm.meta", "answer_builder.meta")
-    rag_pipeline.connect("retriever.documents", "answer_builder.documents")
-    rag_pipeline.draw(path=cfg.PIPELINE_PATH)
+    dense_pipeline.connect("text_embedder.embedding",
+                           "retriever.query_embedding")
+    dense_pipeline.connect("retriever", "prompt_builder.documents")
+    dense_pipeline.connect("prompt_builder", "llm")
+    dense_pipeline.connect("llm.replies", "answer_builder.replies")
+    dense_pipeline.connect("llm.meta", "answer_builder.meta")
+    dense_pipeline.connect("retriever.documents", "answer_builder.documents")
+    dense_pipeline.draw(path=cfg.PIPELINE_PATH)
 
-    return rag_pipeline
+    return dense_pipeline
 
 
-def setup_rag_sparse_pipeline():
+def setup_rag_sparse_pipeline() -> Pipeline:
     """Build basic rag haystack pipeline."""
     doc_store = load_data_no_preprocessing()
     prompt = setup_prompt()
     llm = setup_single_llm(cfg.LLM_MODEL)
     bm25_retriever = setup_single_retriever(doc_store)
 
-    rag_pipeline = Pipeline()
-    rag_pipeline.add_component("retriever", bm25_retriever)
-    rag_pipeline.add_component("prompt_builder", prompt)
-    rag_pipeline.add_component("llm", llm)
-    rag_pipeline.add_component(instance=AnswerBuilder(),
+    sparse_pipeline = Pipeline()
+    sparse_pipeline.add_component("retriever", bm25_retriever)
+    sparse_pipeline.add_component("prompt_builder", prompt)
+    sparse_pipeline.add_component("llm", llm)
+    sparse_pipeline.add_component(instance=AnswerBuilder(),
                                   name="answer_builder")
     # Now, connect the components to each other
-    rag_pipeline.connect("retriever", "prompt_builder.documents")
-    rag_pipeline.connect("prompt_builder", "llm")
-    rag_pipeline.connect("llm.replies", "answer_builder.replies")
-    rag_pipeline.connect("llm.meta", "answer_builder.meta")
-    rag_pipeline.connect("retriever.documents", "answer_builder.documents")
-    rag_pipeline.draw(path=cfg.PIPELINE_PATH)
+    sparse_pipeline.connect("retriever", "prompt_builder.documents")
+    sparse_pipeline.connect("prompt_builder", "llm")
+    sparse_pipeline.connect("llm.replies", "answer_builder.replies")
+    sparse_pipeline.connect("llm.meta", "answer_builder.meta")
+    sparse_pipeline.connect("retriever.documents", "answer_builder.documents")
+    sparse_pipeline.draw(path=cfg.PIPELINE_PATH)
 
-    return rag_pipeline
+    return sparse_pipeline
 
 
-def setup_rag_hybrid_pipeline():
+def setup_rag_hybrid_pipeline() -> Pipeline:
     """Build basic rag haystack pipeline."""
     doc_store = load_data_no_preprocessing()
     prompt = setup_prompt()
@@ -111,7 +111,7 @@ def setup_rag_hybrid_pipeline():
     return hybrid_pipeline
 
 
-def select_rag_pipeline():
+def select_rag_pipeline() -> Pipeline:
     """Select type of pipeline to load."""
     if cfg.TYPE_RETRIEVAL == 'dense':
         rag_pipeline = setup_rag_dense_pipeline()

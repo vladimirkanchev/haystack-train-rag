@@ -3,6 +3,7 @@ import timeit
 
 import box
 from dotenv import find_dotenv, load_dotenv
+from haystack import Pipeline
 import yaml
 
 from src.rag_pipelines import select_rag_pipeline
@@ -17,7 +18,7 @@ with open('./src/config.yml', 'r', encoding='utf8') as ymlfile:
     cfg = box.Box(yaml.safe_load(ymlfile))
 
 
-def run_pipeline(query, rag_pipeline):
+def run_pipeline(query: str, rag_pipeline: Pipeline) -> Pipeline:
     """Run rag/no rag pipeline with predifined parameters."""
     if cfg.TYPE_RETRIEVAL == 'dense':
         # Execute the query
@@ -47,6 +48,7 @@ def run_pipeline(query, rag_pipeline):
         )
     else:
         response_rag = None
+
     return response_rag
 
 
