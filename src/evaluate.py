@@ -9,16 +9,17 @@ def evaluate_rag(query, rag_answers,
                  gt_answers, retrieved_docs):
     """Evaluate rag algorithm with ground truth data."""
     eval_pipeline = evaluate_gt_pipeline()
+
     results = eval_pipeline.run({
-        "doc_mrr_evaluator": {"ground_truth_documents":
-                              list([ans] for ans in gt_answers),
-                              "retrieved_documents": retrieved_docs},
+        #"doc_mrr_evaluator": {"ground_truth_documents":
+        #                      list(ans for ans in gt_answers),
+        #                      "retrieved_documents": retrieved_docs},
         "faithfulness": {"questions": list(query),
                          "contexts": list([d]
                                           for d in retrieved_docs),
                          "predicted_answers": rag_answers},
         "sas_evaluator": {"predicted_answers": rag_answers,
-                          "ground_truth_answers": list(gt_answers)}
+                          "ground_truth_answers": gt_answers}
     })
 
     inputs = {

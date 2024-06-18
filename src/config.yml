@@ -1,4 +1,4 @@
-"""RAG algorithm parameters"""
+#"""RAG algorithm parameters"""
 DATA_PATH: 'data/'
 DATA_SET: 'bilgeyucel/seven-wonders'
 # dense - 'sentence-transformers/all-MiniLM-L6-v2'

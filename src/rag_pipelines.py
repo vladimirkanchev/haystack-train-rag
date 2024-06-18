@@ -10,10 +10,10 @@ import yaml
 from .llm import setup_single_llm
 from .ingest import load_data_no_preprocessing
 
-from .wrapper_embedders import setup_embedder
+from .embedders import setup_embedder
 from .wrapper_prompts import setup_prompt
-from .wrapper_retrievers import setup_single_retriever
-from .wrapper_retrievers import setup_hyrbrid_retriever
+from .retrievers import setup_single_retriever
+from .retrievers import setup_hyrbrid_retriever
 
 with open('./src/config.yml', 'r', encoding='utf8') as ymlfile:
     cfg = box.Box(yaml.safe_load(ymlfile))
