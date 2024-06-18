@@ -54,28 +54,28 @@ def run_pipeline(query):
 
 
 if __name__ == "__main__":
-    input_query = create_question_data()
+    QUERY = create_question_data()
     start = timeit.default_timer()
     rag_answers, retrieved_docs, rag_questions = [], [], []
     gt_answers = create_gt_answer_data()
 
-    response = run_pipeline(input_query)
+    response = run_pipeline(QUERY)
 
     end = timeit.default_timer()
 
-    rag_questions.append(input_query)
+    rag_questions.append(QUERY)
     rag_answers.append(response["answer_builder"]["answers"][0].data)
 
     retrieved_docs.append(response["answer_builder"][
         "answers"][0].documents)
     reply = response["answer_builder"]["answers"]
-    inputs, results = evaluate_rag(input_query, rag_answers,
+    inputs, results = evaluate_rag(QUERY, rag_answers,
                                    gt_answers, retrieved_docs)
     build_rag_eval_report(inputs, results)
-    if reply:
-        final_answer = reply[0].strip()
-        print(f'\nAnswer:\n {final_answer}')
-    else:
-        print('\nAnswer:\n No final answer')
+    # if reply:
+    #    final_answer = reply[0].strip()
+        # print(f'\nAnswer:\n {final_answer}')
+    # else:
+        # print('\nAnswer:\n No final answer')
     print('=' * 50)
     print(f"Time to retrieve answer: {end - start}")
