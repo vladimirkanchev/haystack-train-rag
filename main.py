@@ -23,18 +23,18 @@ def run_pipeline(query, rag_pipeline):
         # Execute the query
         response_rag = rag_pipeline.run(
             {"text_embedder": {"text": query},
-                "prompt_builder": {"question": query},
+             "prompt_builder": {"question": query},
+             "answer_builder": {"query": query}
              }
         )
-        # curr_reply = response_rag['llm']['replies']
     elif cfg.TYPE_RETRIEVAL == 'sparse':
 
         response_rag = rag_pipeline.run(
             {"retriever": {"query": query},
              "prompt_builder": {"question": query},
+             "answer_builder": {"query": query}
              }
         )
-        # curr_reply = response_rag['llm']['replies']
     elif cfg.TYPE_RETRIEVAL == 'hybrid':
         response_rag = rag_pipeline.run(
             {"text_embedder": {"text": query},
@@ -63,19 +63,10 @@ if __name__ == "__main__":
         rag_answers.append(response["answer_builder"]["answers"][0].data)
         retrieved_docs.append(response["answer_builder"][
             "answers"][0].documents)
-        # reply = response["answer_builder"]["answers"]
-    print(QUERY_LIST[0])
-    print(rag_answers[0])
-    print(gt_answers[0])
-    print(retrieved_docs[0])
+
     inputs, results = evaluate_rag(QUERY_LIST, rag_answers,
                                    gt_answers, retrieved_docs)
     end = timeit.default_timer()
     build_rag_eval_report(inputs, results)
-    # if reply:
-    #   final_answer = reply[0].strip()
-    #   print(f'\nAnswer:\n {final_answer}')
-    # else:
-    #   print('\nAnswer:\n No final answer')
     print('=' * 50)
     print(f"Time to retrieve answer: {end - start}")

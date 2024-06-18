@@ -32,12 +32,17 @@ def setup_rag_dense_pipeline():
     rag_pipeline.add_component("retriever", retriever)
     rag_pipeline.add_component("prompt_builder", prompt)
     rag_pipeline.add_component("llm", llm)
+    rag_pipeline.add_component(instance=AnswerBuilder(),
+                                  name="answer_builder")
 
     # Now, connect the components to each other
     rag_pipeline.connect("text_embedder.embedding",
                          "retriever.query_embedding")
     rag_pipeline.connect("retriever", "prompt_builder.documents")
     rag_pipeline.connect("prompt_builder", "llm")
+    rag_pipeline.connect("llm.replies", "answer_builder.replies")
+    rag_pipeline.connect("llm.meta", "answer_builder.meta")
+    rag_pipeline.connect("retriever.documents", "answer_builder.documents")
     rag_pipeline.draw(path=cfg.PIPELINE_PATH)
 
     return rag_pipeline
@@ -54,10 +59,14 @@ def setup_rag_sparse_pipeline():
     rag_pipeline.add_component("retriever", bm25_retriever)
     rag_pipeline.add_component("prompt_builder", prompt)
     rag_pipeline.add_component("llm", llm)
-
+    rag_pipeline.add_component(instance=AnswerBuilder(),
+                                  name="answer_builder")
     # Now, connect the components to each other
     rag_pipeline.connect("retriever", "prompt_builder.documents")
     rag_pipeline.connect("prompt_builder", "llm")
+    rag_pipeline.connect("llm.replies", "answer_builder.replies")
+    rag_pipeline.connect("llm.meta", "answer_builder.meta")
+    rag_pipeline.connect("retriever.documents", "answer_builder.documents")
     rag_pipeline.draw(path=cfg.PIPELINE_PATH)
 
     return rag_pipeline

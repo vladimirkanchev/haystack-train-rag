@@ -19,7 +19,7 @@ PIPELINE_PATH: './_media/pipeline.png'
 # 'dense'-sentence transformers model
 # 'sparse'-bm25
 # 'hybrid'-both of dense and sparse
-TYPE_RETRIEVAL: 'hybrid'
+TYPE_RETRIEVAL: 'sparse'
 REPORT_PATH: 'report/final.xlsx'
 # true - if we want to evaluate the RAG algorithm final result with llm model
 # false - if we do not want to evaluate the RAG algorithm final result
