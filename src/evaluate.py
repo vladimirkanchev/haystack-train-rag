@@ -3,7 +3,7 @@ from haystack.evaluation.eval_run_result import EvaluationRunResult
 import pandas as pd
 
 import box
-import yaml 
+import yaml
 
 from .eval_pipelines import evaluate_gt_pipeline
 

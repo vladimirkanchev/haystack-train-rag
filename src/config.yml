@@ -26,4 +26,3 @@ REPORT_PATH: 'report/final.xlsx'
 # RAG_EVAL: true
 # gpt-4 preferably to use: accurate but expensive evaluation llm model
 EVAL_MODEL: 'gpt-3.5-turbo'
-

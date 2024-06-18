@@ -109,6 +109,8 @@ def select_rag_pipeline():
     elif cfg.TYPE_RETRIEVAL == 'sparse':
         rag_pipeline = setup_rag_sparse_pipeline()
     elif cfg.TYPE_RETRIEVAL == 'hybrid':
-        rag_pipeline = setup_rag_hybrid_pipeline()  
+        rag_pipeline = setup_rag_hybrid_pipeline()
+    else:
+        rag_pipeline = None
 
     return rag_pipeline

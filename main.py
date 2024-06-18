@@ -19,8 +19,6 @@ with open('./src/config.yml', 'r', encoding='utf8') as ymlfile:
 
 def run_pipeline(query, rag_pipeline):
     """Run rag/no rag pipeline with predifined parameters."""
-    
-    
     if cfg.TYPE_RETRIEVAL == 'dense':
         # Execute the query
         response_rag = rag_pipeline.run(
@@ -57,11 +55,11 @@ if __name__ == "__main__":
     start = timeit.default_timer()
     rag_answers, retrieved_docs, rag_questions = [], [], []
     gt_answers = create_gt_answer_data()
-    rag_pipeline = select_rag_pipeline()
+    curr_rag_pipeline = select_rag_pipeline()
 
-    for query in QUERY_LIST:
-        response = run_pipeline(query, rag_pipeline)
-        rag_questions.append(query)
+    for curr_query in QUERY_LIST:
+        response = run_pipeline(curr_query, curr_rag_pipeline)
+        rag_questions.append(curr_query)
         rag_answers.append(response["answer_builder"]["answers"][0].data)
         retrieved_docs.append(response["answer_builder"][
             "answers"][0].documents)
@@ -75,9 +73,9 @@ if __name__ == "__main__":
     end = timeit.default_timer()
     build_rag_eval_report(inputs, results)
     # if reply:
-    #    final_answer = reply[0].strip()
-        # print(f'\nAnswer:\n {final_answer}')
+    #   final_answer = reply[0].strip()
+    #   print(f'\nAnswer:\n {final_answer}')
     # else:
-        # print('\nAnswer:\n No final answer')
+    #   print('\nAnswer:\n No final answer')
     print('=' * 50)
     print(f"Time to retrieve answer: {end - start}")
