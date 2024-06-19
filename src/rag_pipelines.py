@@ -20,7 +20,7 @@ with open('./src/config.yml', 'r', encoding='utf8') as ymlfile:
 
 
 def setup_no_rag_pipeline() -> Pipeline:
-    """Build basic no rag pipeline - only request to the llm model"""
+    """Build basic no rag pipeline - only request to the llm model."""
     prompt = setup_prompt()
     llm = setup_single_llm(cfg.LLM_MODEL)
     answer_builder = AnswerBuilder()
@@ -29,12 +29,12 @@ def setup_no_rag_pipeline() -> Pipeline:
     no_rag_pipeline.add_component("prompt_builder", prompt)
     no_rag_pipeline.add_component("llm", llm)
     no_rag_pipeline.add_component(instance=answer_builder,
-                                 name="answer_builder")
+                                  name="answer_builder")
 
     no_rag_pipeline.connect("prompt_builder", "llm")
     no_rag_pipeline.connect("llm.replies", "answer_builder.replies")
     no_rag_pipeline.draw(path=cfg.PIPELINE_PATH)
-        
+
     return no_rag_pipeline
 
 
