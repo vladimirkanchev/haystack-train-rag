@@ -18,6 +18,24 @@ from .retrievers import setup_hyrbrid_retriever
 with open('./src/config.yml', 'r', encoding='utf8') as ymlfile:
     cfg = box.Box(yaml.safe_load(ymlfile))
 
+def setup_no_rag_pipeline() -> Pipeline:
+    """Build basic no rag pipeline - only request to the llm model"""
+    prompt = setup_prompt()
+    llm = setup_single_llm(cfg.LLM_MODEL)
+    answer_builder = AnswerBuilder()
+
+    no_rag_pipeline = Pipeline()
+    no_rag_pipeline.add_component("prompt_builder", prompt)
+    no_rag_pipeline.add_component("llm", llm)
+    no_rag_pipeline.add_component(instance=answer_builder,
+                                 name="answer_builder")
+
+    no_rag_pipeline.connect("prompt_builder", "llm")
+    no_rag_pipeline.connect("llm.replies", "answer_builder.replies")
+    no_rag_pipeline.draw(path=cfg.PIPELINE_PATH)
+        
+    return no_rag_pipeline
+
 
 def setup_rag_dense_pipeline() -> Pipeline:
     """Build basic rag haystack pipeline."""
@@ -113,13 +131,15 @@ def setup_rag_hybrid_pipeline() -> Pipeline:
 
 def select_rag_pipeline() -> Pipeline:
     """Select type of pipeline to load."""
+    rag_pipeline = setup_no_rag_pipeline()
+
     if cfg.TYPE_RETRIEVAL == 'dense':
         rag_pipeline = setup_rag_dense_pipeline()
     elif cfg.TYPE_RETRIEVAL == 'sparse':
         rag_pipeline = setup_rag_sparse_pipeline()
     elif cfg.TYPE_RETRIEVAL == 'hybrid':
         rag_pipeline = setup_rag_hybrid_pipeline()
-    else:
-        rag_pipeline = None
+    elif cfg.TYPE_RETRIEVAL == 'no_rag':
+        rag_pipeline = setup_rag_hybrid_pipeline()
 
     return rag_pipeline

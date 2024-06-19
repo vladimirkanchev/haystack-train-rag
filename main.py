@@ -46,9 +46,19 @@ def run_pipeline(query: str, rag_pipeline: Pipeline) -> Pipeline:
              "answer_builder": {"query": query}
              }
         )
-    else:
-        response_rag = None
-
+    elif cfg.TYPE_RETRIEVAL == 'no_rag': 
+        response_rag = response_rag = rag_pipeline.run(
+            {"prompt_builder": {"question": query},
+             "answer_builder": {"query": query}
+            }
+        )
+    else: 
+        response_rag = response_rag = rag_pipeline.run(
+            {"prompt_builder": {"question": query},
+             "answer_builder": {"query": query}
+            }
+        )
+  
     return response_rag
 
 

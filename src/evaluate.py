@@ -1,5 +1,5 @@
 """Contain functions to evaluate rag algorithm."""
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Tuple
 
 from haystack.evaluation.eval_run_result import EvaluationRunResult
 import pandas as pd
@@ -17,7 +17,8 @@ def evaluate_rag(query: List[str],
                  rag_answers: List[str],
                  gt_answers: List[str],
                  retrieved_docs: List[List[str]])\
-        -> Dict[str, Dict[str | Dict[str]]]:
+        -> Tuple[Dict[str, List[str] | List[List[str]]],
+                 Dict[str, Dict[str, List[str] | List[List[str]]]]]:
     """Evaluate rag algorithm with ground truth data."""
     eval_pipeline = evaluate_gt_pipeline()
 
@@ -40,8 +41,8 @@ def evaluate_rag(query: List[str],
     return inputs, results
 
 
-def build_rag_eval_report(inputs: Dict[str, List[str], List[List[str]]],
-                          results: Dict[str, Dict[str, Any]]) \
+def build_rag_eval_report(inputs: Dict[str, List[str] | List[List[str]]],
+                          results: Dict[str, Dict[str, List[str] | List[List[str]]]]) \
         -> None:
     """Build and save report of evaluation of rag algorithm."""
     evaluation_result = EvaluationRunResult(run_name="hybrid_rag_pipeline",
