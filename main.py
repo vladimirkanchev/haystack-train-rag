@@ -11,6 +11,7 @@ from src.rag_pipelines import select_rag_pipeline
 
 from src.evaluate import evaluate_rag, build_rag_eval_report
 from src.utils import create_gt_answer_data, create_question_data
+from src.utils import load_eval_data, save_eval_data
 
 load_dotenv(find_dotenv())
 
@@ -75,7 +76,8 @@ if __name__ == "__main__":
         rag_answers.append(response["answer_builder"]["answers"][0].data)
         retrieved_docs.append(response["answer_builder"][
             "answers"][0].documents)
-
+    save_eval_data(rag_answers, retrieved_docs)
+    rag_answers, retrieved_docs = load_eval_data()
     inputs, results = evaluate_rag(QUERY_LIST, rag_answers,
                                    gt_answers, retrieved_docs)
     end = timeit.default_timer()

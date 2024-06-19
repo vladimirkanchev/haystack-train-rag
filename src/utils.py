@@ -1,5 +1,6 @@
 """Construct utility functions to generate useful data."""
-from typing import List
+import pickle
+from typing import List, Tuple
 
 
 def create_gt_answer_data() -> List[str]:
@@ -34,3 +35,23 @@ def create_question_data() -> List[str]:
                      'What does The Temple of Artemis at Ephesus look like?']
 
     return all_questions
+
+
+def save_eval_data(rag_answers: List[str], retrieved_docs: List[List[str]]) \
+        -> None:
+    """Save evaluation data of the rag algo/given pipeline"""
+    file_path = 'data/eval_data.pkl'
+    with open(file_path, "wb") as file_in:
+        # Writing data to a file
+        pickle.dump([rag_answers, retrieved_docs], file_in)
+
+
+def load_eval_data() -> Tuple[List[str], List[List[str]]]:
+    """Load evaluation data of the rag algo/given pipeline"""
+    file_path = 'data/eval_data.pkl'
+    with open(file_path, "rb") as file_out:
+        # Writing data to a file
+        [rag_answers, retrieved_docs] = pickle.load(file_out)
+    
+    return rag_answers, retrieved_docs
+  

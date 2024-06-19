@@ -18,6 +18,7 @@ from .retrievers import setup_hyrbrid_retriever
 with open('./src/config.yml', 'r', encoding='utf8') as ymlfile:
     cfg = box.Box(yaml.safe_load(ymlfile))
 
+
 def setup_no_rag_pipeline() -> Pipeline:
     """Build basic no rag pipeline - only request to the llm model"""
     prompt = setup_prompt()
