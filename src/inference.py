@@ -1,3 +1,4 @@
+"""Run inference of the rag pipeline."""
 from haystack import Pipeline
 
 import box
@@ -49,10 +50,8 @@ def run_pipeline(query: str, rag_pipeline: Pipeline) -> Pipeline:
              "answer_builder": {"query": query}
              }
         )
-    
+
     rag_answer = extract_rag_answer(response_rag)
-    retrieved_docs = extract_retrieved_docs(response_rag) 
-    print(rag_answer)
-    print(retrieved_docs)
-    
+    retrieved_docs = extract_retrieved_docs(response_rag)
+
     return rag_answer, retrieved_docs

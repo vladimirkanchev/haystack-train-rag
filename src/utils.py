@@ -4,6 +4,7 @@ from typing import List, Tuple
 
 from haystack import Pipeline
 
+
 def create_gt_answer_data() -> List[str]:
     """Create utility ground truth data - answers for questions."""
     all_gt_answers = [
@@ -66,8 +67,8 @@ def extract_retrieved_docs(response_rag: Pipeline):
     """Extract retrieved documents from pipeline response."""
     retrieved_docs = []
     retrieved_raw_docs = response_rag["answer_builder"][
-            "answers"][0].documents
+        "answers"][0].documents
     for docs in retrieved_raw_docs:
         retrieved_docs.append(docs.content)
-    
+
     return retrieved_docs

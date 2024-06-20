@@ -3,9 +3,7 @@ import timeit
 
 import box
 from dotenv import find_dotenv, load_dotenv
-from haystack import Pipeline
 import yaml
-
 
 from src.evaluate import evaluate_rag, build_rag_eval_report
 from src.inference import run_pipeline
@@ -27,11 +25,12 @@ if __name__ == "__main__":
     curr_rag_pipeline = select_rag_pipeline()
 
     for curr_query in QUERY_LIST:
-        response = run_pipeline(curr_query, curr_rag_pipeline)
+        rag_answer, retrieved_docs = run_pipeline(curr_query,
+                                                  curr_rag_pipeline)
         rag_questions.append(curr_query)
-        rag_answers.append(response["answer_builder"]["answers"][0].data)
-        retrieved_docs.append(response["answer_builder"][
-            "answers"][0].documents)
+        rag_answers.append(rag_answer)
+        retrieved_docs.append(retrieved_docs)
+
     save_eval_data(rag_answers, retrieved_docs)
     rag_answers, retrieved_docs = load_eval_data()
     inputs, results = evaluate_rag(QUERY_LIST, rag_answers,
