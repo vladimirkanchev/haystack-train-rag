@@ -6,10 +6,10 @@ from dotenv import find_dotenv, load_dotenv
 from haystack import Pipeline
 import yaml
 
-from src.rag_pipelines import select_rag_pipeline
-
 
 from src.evaluate import evaluate_rag, build_rag_eval_report
+from src.inference import run_pipeline
+from src.rag_pipelines import select_rag_pipeline
 from src.utils import create_gt_answer_data, create_question_data
 from src.utils import load_eval_data, save_eval_data
 
@@ -17,50 +17,6 @@ load_dotenv(find_dotenv())
 
 with open('./src/config.yml', 'r', encoding='utf8') as ymlfile:
     cfg = box.Box(yaml.safe_load(ymlfile))
-
-
-def run_pipeline(query: str, rag_pipeline: Pipeline) -> Pipeline:
-    """Run rag/no rag pipeline with predifined parameters."""
-    if cfg.TYPE_RETRIEVAL == 'dense':
-        # Execute the query
-        response_rag = rag_pipeline.run(
-            {"text_embedder": {"text": query},
-             "prompt_builder": {"question": query},
-             "answer_builder": {"query": query}
-             }
-        )
-    elif cfg.TYPE_RETRIEVAL == 'sparse':
-
-        response_rag = rag_pipeline.run(
-            {"retriever": {"query": query},
-             "prompt_builder": {"question": query},
-             "answer_builder": {"query": query}
-             }
-        )
-    elif cfg.TYPE_RETRIEVAL == 'hybrid':
-        response_rag = rag_pipeline.run(
-            {"text_embedder": {"text": query},
-             "bm25_retriever": {"query": query},
-             "document_joiner": {"top_k": 5},
-             "ranker": {"query": query},
-             "prompt_builder": {"question": query},
-             "answer_builder": {"query": query}
-             }
-        )
-    elif cfg.TYPE_RETRIEVAL == 'no_rag':
-        response_rag = response_rag = rag_pipeline.run(
-            {"prompt_builder": {"question": query},
-             "answer_builder": {"query": query}
-             }
-        )
-    else:
-        response_rag = response_rag = rag_pipeline.run(
-            {"prompt_builder": {"question": query},
-             "answer_builder": {"query": query}
-             }
-        )
-
-    return response_rag
 
 
 if __name__ == "__main__":

@@ -14,7 +14,7 @@ with open('./src/config.yml', 'r', encoding='utf8') as ymlfile:
 
 
 def setup_single_llm(model_name: str) -> None:
-    """Build single llm model for RAG algorithm."""
+    """Build single llm (non-chat-TGI) model for RAG algorithm."""
     if cfg.LLM_TYPE == 'openai':
         return OpenAIGenerator(model=model_name)
     if cfg.LLM_TYPE == 'opensource':
