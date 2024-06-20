@@ -2,6 +2,7 @@
 import pickle
 from typing import List, Tuple
 
+from haystack import Pipeline
 
 def create_gt_answer_data() -> List[str]:
     """Create utility ground truth data - answers for questions."""
@@ -54,3 +55,19 @@ def load_eval_data() -> Tuple[List[str], List[List[str]]]:
         [rag_answers, retrieved_docs] = pickle.load(file_out)
 
     return rag_answers, retrieved_docs
+
+
+def extract_rag_answer(response_rag: Pipeline):
+    """Extract rag answer from pipeline response."""
+    return response_rag["answer_builder"]["answers"][0].data
+
+
+def extract_retrieved_docs(response_rag: Pipeline):
+    """Extract retrieved documents from pipeline response."""
+    retrieved_docs = []
+    retrieved_raw_docs = response_rag["answer_builder"][
+            "answers"][0].documents
+    for docs in retrieved_raw_docs:
+        retrieved_docs.append(docs.content)
+    
+    return retrieved_docs

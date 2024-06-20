@@ -3,6 +3,8 @@ from haystack import Pipeline
 import box
 import yaml
 
+from .utils import extract_rag_answer, extract_retrieved_docs
+
 with open('./src/config.yml', 'r', encoding='utf8') as ymlfile:
     cfg = box.Box(yaml.safe_load(ymlfile))
 
@@ -42,10 +44,15 @@ def run_pipeline(query: str, rag_pipeline: Pipeline) -> Pipeline:
              }
         )
     else:
-        response_rag = response_rag = rag_pipeline.run(
+        response_rag = rag_pipeline.run(
             {"prompt_builder": {"question": query},
              "answer_builder": {"query": query}
              }
         )
-
-    return response_rag
+    
+    rag_answer = extract_rag_answer(response_rag)
+    retrieved_docs = extract_retrieved_docs(response_rag) 
+    print(rag_answer)
+    print(retrieved_docs)
+    
+    return rag_answer, retrieved_docs
