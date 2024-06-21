@@ -1,7 +1,7 @@
 """Application file for fastapi endpoint for the rag algorithm."""
 import json
 
-from fastapi import FastAPI, Request, Response, Form
+from fastapi import FastAPI, Request, Response, Form, HTTPException
 from fastapi.templating import Jinja2Templates
 from fastapi.encoders import jsonable_encoder
 import uvicorn
@@ -43,6 +43,9 @@ async def index(request: Request):
 @app.post("/get_answer")
 async def get_answer(request: Request, question: str = Form(...)):
     """Load output result of the inference of the rag algorithm."""
+    if not question:
+        raise HTTPException(status_code=404)
+     
     answer, relevant_documents = get_result(question)
     response_data = jsonable_encoder(json.dumps(
         {"answer": answer,
@@ -53,6 +56,7 @@ async def get_answer(request: Request, question: str = Form(...)):
     res = Response(response_data)
 
     return res
+
 
 if __name__ == "__main__":
     uvicorn.run("app:app", host='0.0.0.0', port=8001, reload=True)
