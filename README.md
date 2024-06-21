@@ -1,15 +1,30 @@
-# haystack-train-rag
+# Ask AI about Seven Wonders of the Ancient World
 
-A toy AI project that uses a RAG algorithm with a haystack framework. It started as a training project based on a notebook[1] as a simple Q&A system to answer questions about the seven wonders of the ancient world. The author's purpose was to develop it into a professional project with mlops, a test functionality, dockerizing, web/ui interface, etc., to solve more complex problems with the rag algorithm.
+A toy AI project that uses a RAG algorithm with a haystack framework. It started as a training project based on a notebook [1] as a simple Q&A system to answer questions for seven wonders of the ancient world. Author's purpose was to grow it into a professional project with mlops, test functionality, dockerizing, web/ui interface, etc solving more complex problems with the rag algorithm.
 
+## A List of Seven  Wonders:
+The seven wonders are the architectural and artistic monuments considered as perfect by the Greeks and the Romans and symbolize human ingenuity and architectural excellence. 
+Wonders include:
+
+- Great Pyramid of Giza
+- Hanging Gardens of Babylon
+- Temple of Artemis
+- Statue of Zeus
+- Mausoleum at Halicarnassus
+- Colossus of Rhodes
+- Lighthouse of Alexandria 
+
+From the given list only the first one still exist.
 
 ## Requirements
 
-To run this project, you will need an OPENAI API KEY token, which should be set in your local environment as follows:
+To run the AI models in the project, you will need a OPENAI API KEY token for the commercial OpenAI model or HF_API_TOKEN token for the open source AI model. They should be set in your local environment as follows:
 ```
 OPENAI_API_KEY=''
 ```
-
+```
+HF_API_TOKEN=''
+```
 
 ## Installation, Setup and Run
 
@@ -19,7 +34,7 @@ git clone https://github.com/vladimirkanchev/haystack-train-rag
 cd haystack-train-rag
 pip install -r requirements.txt
 ```
-2. Before you start the Q&A program locally, run the script to convert PDF documents into vector embeddings and save them in the haystack storage:
+2. Before you start the Q&A program locally, run the script to convert PDF documents to vector embeddings and save them into the haystack storage:
 ```
 python src/ingest.py
 ```
@@ -30,7 +45,7 @@ python main.py "What does Rhodes Statue look like?"
 
 ## Technologies
 
-At present, in this project we use the following software technologies:
+At the current moment we use the following software technologies:
     
 - Visual Studio Code 1.90.0
 - Python 3.10.12
@@ -48,7 +63,7 @@ Some of the python packages which are part of our project:
 - pydantic==2.7.3
 - tokenizers==0.19.1
 - torch==2.3.0
-- tqdm==4.66.4
+- fastapi == 0.111
 - transformers==4.41.2
 
 
@@ -61,14 +76,14 @@ At the current moment, we have implemented only a simple RAG algorithm. We are a
 
 Our next tasks are as follows:
    
-- applying own preprocessing algorithm
-- applying dockerization
-- adding ui - streamlit
+- apply own preprocessing algorithm
+- apply dockerization
+- add ui - streamlit
 
 
 ## Who wants to contribute
 
-Contributions, issues and feature requests will be welcome at the later stage of project development. 
+Contributions, issues and feature requests will be welcomed at the later stage of project development. 
 
 
 ## Reference
