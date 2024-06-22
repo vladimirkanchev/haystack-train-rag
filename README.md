@@ -1,14 +1,15 @@
 <div align="center">
-  <img src="/_media/seven_wonders.png" width="800" height="500">
+  <img src="/_media/seven_wonders.jpeg" width="800" height="500">
 </div>
 
 # Ask AI about Seven Wonders of the Ancient World
 
-This repository contains a toy AI project that provides information about a certain wonder of the ancient world using LLM model trained on related wikipedia data. Our idea is aspiring historians and AI nerds to extend their knowledge about ancient history and how to use LLM models with RAG algorithm to solve using a wide knowledge base.
+This repository contains a toy AI project that provides information about a certain wonder of the ancient world using LLM model trained on related wikipedia data. Our idea is to help aspiring historians and AI nerds to extend their knowledge about ancient history and how to use LLM models with RAG algorithm to solve similar problems using a large, publicly available, knowledge base of documents.
 
 ## A List of Seven Ancient Wonders:
 The seven ancient wonders are the architectural and artistic monuments in Eastern Mediterenean and Middle East during Antiquity and are considered as perfect by the Greeks and the Romans. They also symbolize human ingenuity and architectural excellence but unfortunately only the Great Pyramiad of Giza still exists today. 
-Wonders include:
+
+List of Ancient Wonders include:
 
 - Great Pyramid of Giza
 - Hanging Gardens of Babylon
@@ -18,16 +19,19 @@ Wonders include:
 - Colossus of Rhodes
 - Lighthouse of Alexandria 
 
-The user can formulate its question and ask the Q&A system.
+Our Q&A system allows the user to formulate its own questions - 'What's the Colossus of Rhodes' and to ask the system.
 
 <div align="center">
-  <img src="/_media/seven_wonders_map.png" width="800" height="500">
+  <img src="/_media/seven_wonders_map.jpg" width="800" height="500">
 </div>
 
 ## Technical details 
-    At the current moment the project represents Q&A system based on RAG algorithm using Haystack 2.0 framework. The backend is provided by FastAPI and frontend by simple javascript app at the moment.Actually there are two functionality: the first one for usual Q&A system while the second one provides hard-coded questions with ground-truth answers for RAG algorithm evaluation.
+
+    At the current moment the project represents Q&A system based on RAG algorithm using Haystack 2.0 framework. The backend is provided by FastAPI while the frontend represents a by simple javascript app at the moment. The knowledge base is stored in specialized (in-memory at the moment ) embedding store as vectors, which are used to build the query context. The aim of intelligent part of the Q&A system is to find out the query context through distance calculation between each query embedding and vector. Finally the extended query is sent to the LLM model and its response serve as a Q&A system answer.
+
+    Actually the Q&A system provides two functionalities: the first one for usual Q&A system where a user can ask questions and receive questions. The second one uses hard-coded questions with ground-truth answers for RAG algorithm evaluation and can perform additional research and/or can be extended for other purposes.
     
-    It started as a training project based on a notebook [1] as a simple Q&A system to answer questions for seven wonders of the ancient world. We wanted  to grow it into a professional project solving more complex problems with the rag algorithm and extend it to solve other problems with real, unprocessed data.
+    It started as a training project based on a notebook [1] as a simple Q&A system to answer questions for seven wonders of the ancient world. We wanted  to grow it into a professional project solving more complex problems with the rag algorithm using real, unprocessed data.
 
 ## Requirements
 
@@ -78,6 +82,7 @@ At the current moment we use the following software technologies:
     
 - Visual Studio Code 1.90.0
 - Python 3.10.12
+- Docker 26.1
 
     
 ## Python Packages Used
@@ -110,7 +115,7 @@ Our next tasks are as follows:
 - apply better rag algorithms
 - add a vector database
 - add another ui - streamlit
-- extend evaluation part
+- extend the evaluation part
 
 
 ## Who wants to contribute
