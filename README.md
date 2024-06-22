@@ -64,7 +64,7 @@ python app.py
 Thus will start local fastapi server and you can enter your question through a simple ui interface:
 
 <div align="center">
-  <img src="/_media/ui_fastapi_rag.jpg" width="800" height="500">
+  <img src="/_media/ui_fastapi_rag.jpg" width="700" height="450">
 </div>
 
 ## Technologies
