@@ -4,7 +4,7 @@
 
 # Ask AI about the Seven Wonders of the Ancient World
 
-This repository contains a toy AI project that provides information about a given wonder of the ancient world using AI/a LLM model and related wikipedia data. Our idea is to help aspiring historians and AI nerds to extend their knowledge about ancient history and acquire skills to use AI/LLM models with a etrieval-Augmented Generation(RAG) algorithm to solve similar problems using a large knowledge base.
+This repository contains a toy AI project that provides information about a given wonder of the ancient world using AI/a LLM model and related wikipedia data. Our idea is to help aspiring historians and AI nerds to extend their knowledge about ancient history and acquire skills to use AI/LLM models with a retrieval-augmented generation(RAG) algorithm to solve similar problems using a large knowledge base.
 
 ## A List of the Seven Ancient Wonders:
 The seven ancient wonders are architectural and artistic monuments in the Eastern Mediterranean and the Middle East during antiquity, which symbolize human ingenuity and architectural excellence. Unfortunately, only the Great Pyramid of Giza still exists today, while others were destroyed during late antiguity and our concept of them is based on the historical documents and memories of people living in that age. 
@@ -134,3 +134,5 @@ Contributions, issues and feature requests will be welcomed at a later stage of 
 
 ## Reference
 [1] https://haystack.deepset.ai/tutorials/27_first_rag_pipeline
+[2] https://docs.confident-ai.com/docs/guides-rag-evaluation
+[3] https://docs.ragas.io/en/latest/index.html
