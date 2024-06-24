@@ -20,7 +20,7 @@ The list of ancient wonders includes:
 - Statue of Zeus
 
 
-Our question-answering (Q&A) system allows the user to formulate their own questions, e.g. to ask the system: *What's the Colossus of Rhodes?*, and to obtain the corresponding answer.
+Our question-answering (Q&A) system allows the user to formulate their own questions, e.g. to ask the system: *What's the Colossus of Rhodes?*, and to obtain the corresponding AI-generated answer.
 
 <div align="center">
   <img src="/_media/seven_wonders_map.jpg" width="800" height="500">
@@ -31,9 +31,9 @@ Our question-answering (Q&A) system allows the user to formulate their own quest
 
 At the current moment, the project represents a Q&A system based on a RAG algorithm using a Haystack 2.0 framework [2]. The backend is provided by FastAPI, while the frontend represents a simple javascript page at the moment. The knowledge base is stored in a specialized (in-memory store at the moment) store as embedding vectors, which are used later to build the query context. The aim of the intelligent part of the Q&A system is to find out the best context of each query through distance calculation between the query embedding and all embedding vectors. Finally, the extended query (*context + query*) is sent to the LLM model in the system and its response serves as a Q&A system answer.
 
-Actually, our Q&A system provides two functionalities: the first functionality is that of an ordinary Q&A system, where a user can ask questions and receive answers. The second functionality uses hard-coded questions with ground-truth answers for RAG algorithm evaluation and then, users can perform additional research and can extend it for other purposes.
+Actually, our Q&A system provides two functionalities: the first functionality is that of an ordinary Q&A system, where a user can ask questions and receive answers. The second functionality uses hard-coded questions with ground-truth answers for RAG algorithm evaluation and then, users can perform additional research and can extend it for other purposes. Parameters of the RAG algorithm are provided into *src/config.yaml* file.
     
-This project started as a training project based on a notebook [1] to answer questions about the seven wonders of the ancient world. Then, we have developed it into a small AI system with the RAG algorithm.
+This project started as a training project based on a notebook [1] to answer questions about the seven wonders of the ancient world. Then, we developed it into a small AI system with the RAG algorithm.
 
 
 ## Requirements
@@ -58,23 +58,23 @@ pip install -r requirements.txt
 ```
 source .haystack-env/bin/activate 
 ```
-3. Before you start the Q&A program locally, run the script to convert PDF documents to vector embeddings and save them into the haystack storage:
+3. Before you start the Q&A program locally, run the following file to convert loaded data chunks to vector embeddings and save them into the haystack in-memory data store:
 ```
 python src/ingest.py
 ```
 
-4. You have two options to consider: run *main.py* to see how it works, make some experiments and get the evaluation results (5) or ask the Q&ask the Q&A system a question you want(6).
+4. You have two options to consider: run *main.py* to see how it works, make some experiments and get the evaluation results (5) or simply ask the Q&A system a question you want (6).
 
 
-5. Then run the following script to process inquiries about a certain ancient world wonder and to obtain rag evaluation:
+5. Then run the following file to process pre-defined inquiries about certain ancient world wonders and then to obtain the corresponding system answers and their evaluations:
 ```
 python main.py
 ```
 
-6. Run the following script to ask a simple question about one of the seven wonders from the ancient world:
-'''
+6. Run the following script to ask a question about one of the seven wonders from the ancient world:
+```
 python app.py
-'''
+```
 
 This will start the local fastapi server, which you can access it through *localhost:8001* and finally, you can enter your question through a simple user interface (UI):
 
@@ -109,11 +109,11 @@ Some of the python packages which are used for our project are the following:
 
 ## Results and Evaluations
 
-At the current moment, we have implemented three RAG algorithms: dense (sentence transformers, *cos* distance), sparse (bm25 algorithm, no-embedding), and hybrid (both dense and sparse) algorithms. We have used two types of LLM models: a proprietary *openai gpt-3.5* and an open-source *HuggingFaceH4/zephyr-7b-beta* model.
+At the current moment, we have implemented three RAG algorithms: *dense* (sentence transformers, *cos* distance), *sparse* (*bm25* algorithm, no-embedding), and *hybrid* (both *dense* and *sparse*) algorithms. We have used two types of LLM models: a proprietary *openai gpt-3.5* and an open-source *HuggingFaceH4/zephyr-7b-beta* model.
 
 We have already implemented two evaluation metrics for the RAG algorithms: **faithfulness** (measures the factual consistency of the answer against the retrieved context - reverse of presence of hallucinations) and **sas_evaluator** (measures the semantic similarity between the predicted answer and the ground-truth answer using a fine-tuned language model).
 
-We plan to extend the evaluation part using metrics from *deep-eval* [3] and *RAGAS* [4] frameworks. The issues we have here are related to the general lack of ground-truth data for questions and significant delays during data ingestion/Q&A system answering.
+We plan to extend the evaluation part using metrics from *deep-eval* [3] and *RAGAS* [4] frameworks. The issues we have here are related to the general lack of ground-truth data for questions and significant delays during the data ingestion and the Q&A system answering.
 
 
 ## Future Work
