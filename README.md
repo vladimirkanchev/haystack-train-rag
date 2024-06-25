@@ -29,11 +29,11 @@ Our question-answering (Q&A) system allows the user to formulate their own quest
 
 ## Technical details 
 
-At the current moment, the project represents a Q&A system based on a RAG algorithm using a Haystack 2.0 framework [2]. The backend is provided by FastAPI, while the frontend represents a simple javascript page at the moment. The knowledge base is stored in a specialized (in-memory store at the moment) store as embedding vectors, which are used later to build the query context. The aim of the intelligent part of the Q&A system is to find out the best context of each query through distance calculation between the query embedding and all embedding vectors. Finally, the extended query (*context + query*) is sent to the LLM model in the system and its response serves as a Q&A system answer.
+At the current moment, the project represents a Q&A system based on a RAG algorithm using a Haystack 2.0 framework [1]. The backend is provided by FastAPI, while the frontend represents a simple javascript page at the moment. The knowledge base is stored in a specialized (in-memory store at the moment) store as embedding vectors, which are used later to build the query context. The aim of the intelligent part of the Q&A system is to find out the best context of each query through distance calculation between the query embedding and all embedding vectors. Finally, the extended query (*context + query*) is sent to the LLM model in the system and its response serves as a Q&A system answer.
 
-Actually, our Q&A system provides two functionalities: the first functionality is that of an ordinary Q&A system, where a user can ask questions and receive answers. The second functionality uses hard-coded questions with ground-truth answers for RAG algorithm evaluation and then, users can perform additional research and can extend it for other purposes. Parameters of the RAG algorithm are provided into *src/config.yaml* file.
+Actually, our Q&A system provides two functionalities: the first functionality is that of an ordinary Q&A system, where a user can ask questions and receive answers. The second functionality uses hard-coded questions with ground-truth answers for RAG algorithm evaluation and then, users can perform additional research and can extend it for other purposes. Parameters of the RAG algorithm are provided into *src/config.yaml* file and we use a preprocessed dataset of *chunks* from wikipedia for the seven wonders [2].
     
-This project started as a training project based on a notebook [1] to answer questions about the seven wonders of the ancient world. Then, we developed it into a small AI system with the RAG algorithm.
+This project started as a training project based on a notebook [3] to answer questions about the seven wonders of the ancient world. Then, we developed it into a small AI system with the RAG algorithm.
 
 
 ## Requirements
@@ -63,7 +63,7 @@ source .haystack-env/bin/activate
 python src/ingest.py
 ```
 
-4. You have two options to consider: run *main.py* to see how it works, make some experiments and get the evaluation results (5) or simply ask the Q&A system a question you want (6).
+4. You have two options to consider: run *main.py* to see how it works, make some experiments and get the evaluation results (step 5) or simply ask the Q&A system a question you want (step 6).
 
 
 5. Then run the following file to process pre-defined inquiries about certain ancient world wonders and then to obtain the corresponding system answers and their evaluations:
@@ -113,7 +113,7 @@ At the current moment, we have implemented three RAG algorithms: *dense* (senten
 
 We have already implemented two evaluation metrics for the RAG algorithms: **faithfulness** (measures the factual consistency of the answer against the retrieved context - reverse of presence of hallucinations) and **sas_evaluator** (measures the semantic similarity between the predicted answer and the ground-truth answer using a fine-tuned language model).
 
-We plan to extend the evaluation part using metrics from *deep-eval* [3] and *RAGAS* [4] frameworks. The issues we have here are related to the general lack of ground-truth data for questions and significant delays during the data ingestion and the Q&A system answering.
+We plan to extend the evaluation part using metrics from *deep-eval* [4] and *RAGAS* [5] frameworks. The issues we have here are related to the general lack of ground-truth data for questions and significant delays during the data ingestion and the Q&A system answering.
 
 
 ## Future Work
@@ -133,10 +133,13 @@ Contributions, issues and feature requests will be welcomed at a later stage of 
 
 
 ## Reference
-[1] https://haystack.deepset.ai/tutorials/27_first_rag_pipeline
 
-[2] https://haystack.deepset.ai/
+[1] https://haystack.deepset.ai/ 
 
-[3] https://docs.confident-ai.com/docs/guides-rag-evaluation
+[2] https://huggingface.co/datasets/bilgeyucel/seven-wonders
 
-[4] https://docs.ragas.io/en/latest/index.html
+[3] https://haystack.deepset.ai/tutorials/27_first_rag_pipeline
+
+[4] https://docs.confident-ai.com/docs/guides-rag-evaluation
+
+[5] https://docs.ragas.io/en/latest/index.html
