@@ -1,1 +1,1 @@
-"""Init file for source files for rag AI project."""
+"""Init file for src package."""
