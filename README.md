@@ -58,12 +58,12 @@ pip install -r requirements.txt
 ```
 source .haystack-env/bin/activate 
 ```
-3. Before you start the Q&A program locally, run the following file to convert loaded data chunks to vector embeddings and save them into the haystack in-memory data store:
+3. Before you start the Q&A program locally, run the following script to convert loaded data chunks to vector embeddings and save them into the haystack in-memory data store:
 ```
 python src/ingest.py
 ```
 
-4. You have two options to consider: run *main.py* to see how it works, make some experiments and get the evaluation results (step 5) or simply ask the Q&A system a question you want (step 6).
+4. You have two options to consider: run *main.py* file to see how it works, make some experiments and get the evaluation results (step 5) or simply ask the Q&A system a question you want (step 6).
 
 
 5. Then run the following file to process pre-defined inquiries about certain ancient world wonders and then to obtain the corresponding system answers and their evaluations:
