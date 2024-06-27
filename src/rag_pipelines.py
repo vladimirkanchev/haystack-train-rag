@@ -3,12 +3,13 @@ from haystack import Pipeline
 from haystack.components.builders.answer_builder import AnswerBuilder
 from haystack.components.joiners import DocumentJoiner
 from haystack.components.rankers import TransformersSimilarityRanker
+from haystack.document_stores.in_memory import InMemoryDocumentStore
 
 import box
 import yaml
 
 from .llm import setup_single_llm
-from .ingest import load_data_no_preprocessing
+# from .ingest import load_data_no_preprocessing
 
 from .embedders import setup_embedder
 from .wrapper_prompts import setup_prompt
@@ -17,6 +18,8 @@ from .retrievers import setup_hyrbrid_retriever
 
 with open('./src/config.yml', 'r', encoding='utf8') as ymlfile:
     cfg = box.Box(yaml.safe_load(ymlfile))
+
+doc_store = InMemoryDocumentStore()
 
 
 def setup_no_rag_pipeline() -> Pipeline:
@@ -40,7 +43,6 @@ def setup_no_rag_pipeline() -> Pipeline:
 
 def setup_rag_dense_pipeline() -> Pipeline:
     """Build basic rag haystack pipeline."""
-    doc_store = load_data_no_preprocessing()
     prompt = setup_prompt()
     llm = setup_single_llm(cfg.LLM_MODEL)
     text_embedder = setup_embedder(cfg.EMBEDDINGS)
@@ -69,7 +71,6 @@ def setup_rag_dense_pipeline() -> Pipeline:
 
 def setup_rag_sparse_pipeline() -> Pipeline:
     """Build basic rag haystack pipeline."""
-    doc_store = load_data_no_preprocessing()
     prompt = setup_prompt()
     llm = setup_single_llm(cfg.LLM_MODEL)
     bm25_retriever = setup_single_retriever(doc_store)
@@ -93,7 +94,7 @@ def setup_rag_sparse_pipeline() -> Pipeline:
 
 def setup_rag_hybrid_pipeline() -> Pipeline:
     """Build basic rag haystack pipeline."""
-    doc_store = load_data_no_preprocessing()
+    # doc_store = load_data_no_preprocessing()
     prompt = setup_prompt()
     llm = setup_single_llm(cfg.LLM_MODEL)
     text_embedder = setup_embedder(cfg.EMBEDDINGS)
