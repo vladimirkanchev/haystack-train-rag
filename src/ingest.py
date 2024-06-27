@@ -3,6 +3,7 @@ from datasets import load_dataset
 from haystack import Document
 from haystack.components.embedders import SentenceTransformersDocumentEmbedder
 from haystack.document_stores.in_memory import InMemoryDocumentStore
+from haystack.utils import ComponentDevice
 
 import box
 from dotenv import load_dotenv, find_dotenv
@@ -25,7 +26,7 @@ def load_data_no_preprocessing():
     if cfg.TYPE_RETRIEVAL == 'dense':
         # document_store = InMemoryDocumentStore()
         doc_embedder = SentenceTransformersDocumentEmbedder(
-            # ,device=ComponentDevice.from_str("cuda:0"))
+                device=ComponentDevice.from_str("cuda:0"),
             model=cfg.EMBEDDINGS)
         doc_embedder.warm_up()
 
@@ -35,8 +36,8 @@ def load_data_no_preprocessing():
         final_docs = docs
     elif cfg.TYPE_RETRIEVAL == 'hybrid':
         doc_embedder = SentenceTransformersDocumentEmbedder(
-            model=cfg.EMBEDDINGS)
-        # , device=ComponentDevice.from_str("cuda:0"))
+            model=cfg.EMBEDDINGS,
+            device=ComponentDevice.from_str("cuda:0"))
         doc_embedder.warm_up()
 
         docs_with_embeddings = doc_embedder.run(docs)

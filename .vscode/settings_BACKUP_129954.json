@@ -1,0 +1,9 @@
+{
+<<<<<<< HEAD
+    "editor.codeActionsOnSave": {}
+=======
+    "python.analysis.extraPaths": [
+        "\"python.analysis.extraPaths\":[\"./src\"]"
+    ]
+>>>>>>> dev
+}
