@@ -29,17 +29,17 @@ def create_gt_answer_data() -> List[str]:
         + 'and a representation in one relief suggests '
         + 'that the figure was shielding its eyes with one hand.',
         'For many centuries it was one of the tallest man-made structures '
-        + 'in the world. The lighthouse was severely damaged by ' 
-        + 'three earthquakes between 956 and 1323 AD and became ' 
+        + 'in the world. The lighthouse was severely damaged by '
+        + 'three earthquakes between 956 and 1323 AD and became '
         + 'an abandoned ruin.',
-         'The monument was the tomb of Mausolus, ruler of Caria, ' 
+        'The monument was the tomb of Mausolus, ruler of Caria, '
         + 'in southwestern Asia Minor. It was built in his capital city, '
         + 'Halicarnassus, between about 353 and 351 bce by his sister '
         + 'and and widow, Artemisia II.',
-        'The Statue of Zeus at Olympia was a giant seated figure, ' 
+        'The Statue of Zeus at Olympia was a giant seated figure, '
         + 'about 12.4 m (41 ft) tall, made by the Greek sculptor Phidias '
-        + 'around 435 BC at the sanctuary of Olympia, Greece, and erected in ' 
-        + 'the Temple of Zeus there. Zeus is the sky and thunder god ' 
+        + 'around 435 BC at the sanctuary of Olympia, Greece, and erected in '
+        + 'the Temple of Zeus there. Zeus is the sky and thunder god '
         + 'in ancient Greek religion, '
         + 'who rules as king of the gods of Mount Olympus.'
     ]
@@ -54,7 +54,8 @@ def create_question_data() -> List[str]:
                      + 'Egypt in the Antiquity?',
                      'What was the function of Hanging Gardens of Babylon?',
                      'What does Rhodes Statue look like?',
-                     'When and how was destroyed the Lighthouse of Alexandria?',
+                     'When and how was destroyed the Lighthouse of '
+                     + 'Alexandria?',
                      'When was built the Mausoleum at Halicarnassus?',
                      'What is known about the Statue of Zeus?'
                      ]

@@ -15,8 +15,6 @@ load_dotenv(find_dotenv())
 with open('./src/config.yml', 'r', encoding='utf8') as ymlfile:
     cfg = box.Box(yaml.safe_load(ymlfile))
 
-
-"""Load preprocessed dataset of seven wonders."""
 document_store = InMemoryDocumentStore()
 dataset = load_dataset(cfg.DATA_SET, split="train")
 docs = [Document(content=doc["content"], meta=doc["meta"])
@@ -29,9 +27,9 @@ if cfg.TYPE_RETRIEVAL == 'dense':
     doc_embedder.warm_up()
 
     docs_with_embeddings = doc_embedder.run(docs)
-    final_docs = docs_with_embeddings["documents"]
+    FINAL_DOCS = docs_with_embeddings["documents"]
 elif cfg.TYPE_RETRIEVAL == 'sparse':
-    final_docs = docs
+    FINAL_DOCS = docs
 elif cfg.TYPE_RETRIEVAL == 'hybrid':
     doc_embedder = SentenceTransformersDocumentEmbedder(
         model=cfg.EMBEDDINGS,
@@ -39,9 +37,9 @@ elif cfg.TYPE_RETRIEVAL == 'hybrid':
     doc_embedder.warm_up()
 
     docs_with_embeddings = doc_embedder.run(docs)
-    final_docs = docs_with_embeddings["documents"]
+    FINAL_DOCS = docs_with_embeddings["documents"]
 else:
-    final_docs = None
+    FINAL_DOCS = None
 
-if final_docs:
-    document_store.write_documents(final_docs)
+if FINAL_DOCS:
+    document_store.write_documents(FINAL_DOCS)

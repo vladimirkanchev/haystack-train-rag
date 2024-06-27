@@ -45,8 +45,6 @@ async def get_answer(request: Request, question: str = Form(...)):
     """Load output result of the inference of the rag algorithm."""
     if not question:
         raise HTTPException(status_code=404)
-    
-     
     answer, relevant_documents = get_result(question)
     response_data = jsonable_encoder(json.dumps(
         {"answer": answer,
