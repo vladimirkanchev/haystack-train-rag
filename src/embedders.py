@@ -1,7 +1,8 @@
 """Contain wrappers of embedder components of tne rag pipeline."""
-from haystack.components.embedders import SentenceTransformersTextEmbedder
+
+from haystack_integrations.components.embedders.fastembed import FastembedTextEmbedder
 
 
-def setup_embedder(model_name: str) -> SentenceTransformersTextEmbedder:
+def setup_embedder(model_name: str) -> FastembedTextEmbedder:
     """Transform a string into a vector."""
-    return SentenceTransformersTextEmbedder(model=model_name)
+    return FastembedTextEmbedder(model=model_name)
