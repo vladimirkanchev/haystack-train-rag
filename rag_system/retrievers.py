@@ -6,7 +6,7 @@ from haystack.components.retrievers.in_memory import InMemoryBM25Retriever
 from haystack.components.retrievers.in_memory import InMemoryEmbeddingRetriever
 import yaml
 
-with open('./src/config.yml', 'r', encoding='utf8') as ymlfile:
+with open('rag_system/config.yml', 'r', encoding='utf8') as ymlfile:
     cfg = box.Box(yaml.safe_load(ymlfile))
 
 
@@ -14,7 +14,7 @@ def setup_single_retriever(doc_store: object) -> InMemoryBM25Retriever:
     """Build embedding or sparse(bm25)-based retreiver."""
     retriever = None
     if cfg.TYPE_RETRIEVAL == 'dense':
-        retriever = InMemoryEmbeddingRetriever(doc_store)
+        retriever = InMemoryEmbeddingRetriever(document_store=doc_store)
     elif cfg.TYPE_RETRIEVAL == 'sparse':
         retriever = InMemoryBM25Retriever(document_store=doc_store)
 

@@ -9,18 +9,15 @@ import box
 import yaml
 
 from .llm import setup_single_llm
-# from .ingest import load_data_no_preprocessing
+from .ingest import load_data_into_store
 
 from .embedders import setup_embedder
 from .wrapper_prompts import setup_prompt
 from .retrievers import setup_single_retriever
 from .retrievers import setup_hyrbrid_retriever
 
-with open('./src/config.yml', 'r', encoding='utf8') as ymlfile:
+with open('rag_system/config.yml', 'r', encoding='utf8') as ymlfile:
     cfg = box.Box(yaml.safe_load(ymlfile))
-
-doc_store = InMemoryDocumentStore()
-
 
 def setup_no_rag_pipeline() -> Pipeline:
     """Build basic no rag pipeline - only request to the llm model."""
@@ -44,6 +41,8 @@ def setup_no_rag_pipeline() -> Pipeline:
 def setup_rag_dense_pipeline() -> Pipeline:
     """Build basic rag haystack pipeline."""
     prompt = setup_prompt()
+    doc_store = load_data_into_store()
+
     llm = setup_single_llm(cfg.LLM_MODEL)
     text_embedder = setup_embedder(cfg.EMBEDDINGS)
     retriever = setup_single_retriever(doc_store)
@@ -73,6 +72,7 @@ def setup_rag_sparse_pipeline() -> Pipeline:
     """Build basic rag haystack pipeline."""
     prompt = setup_prompt()
     llm = setup_single_llm(cfg.LLM_MODEL)
+    doc_store = InMemoryDocumentStore()
     bm25_retriever = setup_single_retriever(doc_store)
 
     sparse_pipeline = Pipeline()
@@ -94,7 +94,7 @@ def setup_rag_sparse_pipeline() -> Pipeline:
 
 def setup_rag_hybrid_pipeline() -> Pipeline:
     """Build basic rag haystack pipeline."""
-    # doc_store = load_data_no_preprocessing()
+    doc_store = load_data_into_store()
     prompt = setup_prompt()
     llm = setup_single_llm(cfg.LLM_MODEL)
     text_embedder = setup_embedder(cfg.EMBEDDINGS)

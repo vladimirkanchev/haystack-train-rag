@@ -22,7 +22,7 @@ def list_reqs(fname='requirements.txt'):
 with open('VERSION') as version_file:
     _version = version_file.read().strip()
 
-try:
+try:    
     with io.open(os.path.join(pwd, 'README.md'), encoding='utf-8') as f:
         long_description = '\n' + f.read()
 except FileNotFoundError:
@@ -49,6 +49,11 @@ setup(
         'License :: OSI Aproved :: Apache License Version 2.0',
         'Operating System :: OS I'
     ],
+    entry_points={
+        'console_scripts': [
+            'start-rag-system=rag_system.app:main',  # Entry point
+        ],
+    },
 
 
 )

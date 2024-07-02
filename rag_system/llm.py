@@ -1,7 +1,15 @@
 """Build generators for separate llm models."""
+import os
+from pathlib import Path
+import sys
+
 from haystack.components.generators import HuggingFaceTGIGenerator
 from haystack.components.generators import OpenAIGenerator
 from haystack.utils import Secret
+
+PACKAGE_ROOT = Path(os.path.abspath(os.path.dirname(__file__)))
+print(PACKAGE_ROOT)
+sys.path.append(str(PACKAGE_ROOT))
 
 import box
 from dotenv import load_dotenv, find_dotenv
@@ -9,7 +17,7 @@ import yaml
 
 load_dotenv(find_dotenv())
 
-with open('./src/config.yml', 'r', encoding='utf8') as ymlfile:
+with open('rag_system/config.yml', 'r', encoding='utf8') as ymlfile:
     cfg = box.Box(yaml.safe_load(ymlfile))
 
 

@@ -5,12 +5,6 @@ from haystack.components.evaluators.sas_evaluator import SASEvaluator
 
 from fastembed import TextEmbedding
 
-import box
-import yaml
-
-with open('./src/config.yml', 'r', encoding='utf8') as ymlfile:
-    cfg = box.Box(yaml.safe_load(ymlfile))
-
 
 def evaluate_gt_pipeline() -> Pipeline:
     """Build basic evaluation haystack pipeline with ground truth data."""

@@ -9,7 +9,7 @@ import yaml
 
 from .eval_pipelines import evaluate_gt_pipeline
 
-with open('./src/config.yml', 'r', encoding='utf8') as ymlfile:
+with open('rag_system/config.yml', 'r', encoding='utf8') as ymlfile:
     cfg = box.Box(yaml.safe_load(ymlfile))
 
 
