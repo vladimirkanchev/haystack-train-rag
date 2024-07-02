@@ -23,9 +23,7 @@ with open('rag_system/config.yml', 'r', encoding='utf8') as ymlfile:
 
 
 def load_data_into_store():
-    """Load and embed data into"""
-    
-
+    """Load and embed data into the in-memory document store."""
     document_store = InMemoryDocumentStore()
     dataset = load_dataset(cfg.DATA_SET, split="train")
     docs = [Document(content=doc["content"], meta=doc["meta"])
@@ -54,5 +52,5 @@ def load_data_into_store():
 
     if final_docs:
         document_store.write_documents(final_docs)
-    print(document_store.count_documents())
+
     return document_store

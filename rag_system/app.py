@@ -1,21 +1,16 @@
 """Application file for fastapi endpoint for the rag algorithm."""
 import os
-#from pathlib import Path
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-import json
 
+import box
+from dotenv import load_dotenv, find_dotenv
+import json
 from fastapi import FastAPI, Request, Response, Form, HTTPException
 from fastapi.templating import Jinja2Templates
 from fastapi.encoders import jsonable_encoder
-
-
-from dotenv import load_dotenv, find_dotenv
-
-import box
 import yaml
-
 
 from rag_system.inference import run_pipeline
 from rag_system.rag_pipelines import select_rag_pipeline
@@ -61,7 +56,9 @@ async def get_answer(request: Request, question: str = Form(...)):
 
     return res
 
+
 def main():
+    """Start a fastapi server."""
     import uvicorn
     uvicorn.run("app:app", host='0.0.0.0', port=8001, reload=True)
 

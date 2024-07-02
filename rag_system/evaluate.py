@@ -27,7 +27,7 @@ def evaluate_rag(query: List[str],
                          "contexts":
                          retrieved_docs,
                          "predicted_answers": rag_answers},
-        #"sas_evaluator": {"predicted_answers": rag_answers,
+        # "sas_evaluator": {"predicted_answers": rag_answers,
         #                  "ground_truth_answers": gt_answers}
     })
 
