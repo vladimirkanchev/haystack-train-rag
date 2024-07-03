@@ -68,7 +68,7 @@ def setup_rag_dense_pipeline() -> Pipeline:
     dense_pipeline.connect("llm.replies", "answer_builder.replies")
     dense_pipeline.connect("llm.meta", "answer_builder.meta")
     dense_pipeline.connect("retriever.documents", "answer_builder.documents")
-    #dense_pipeline.draw(path=cfg.PIPELINE_PATH)
+    # dense_pipeline.draw(path=cfg.PIPELINE_PATH)
 
     return dense_pipeline
 
@@ -92,7 +92,7 @@ def setup_rag_sparse_pipeline() -> Pipeline:
     sparse_pipeline.connect("llm.replies", "answer_builder.replies")
     sparse_pipeline.connect("llm.meta", "answer_builder.meta")
     sparse_pipeline.connect("retriever.documents", "answer_builder.documents")
-    sparse_pipeline.draw(path=cfg.PIPELINE_PATH)
+    # sparse_pipeline.draw(path=cfg.PIPELINE_PATH)
 
     return sparse_pipeline
 
@@ -131,7 +131,7 @@ def setup_rag_hybrid_pipeline() -> Pipeline:
     hybrid_pipeline.connect("llm.replies", "answer_builder.replies")
     hybrid_pipeline.connect("llm.meta", "answer_builder.meta")
     hybrid_pipeline.connect("ranker", "answer_builder.documents")
-    hybrid_pipeline.draw(path=cfg.PIPELINE_PATH)
+    # hybrid_pipeline.draw(path=cfg.PIPELINE_PATH)
 
     return hybrid_pipeline
 

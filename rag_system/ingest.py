@@ -31,7 +31,7 @@ def load_data_into_store():
 
     if cfg.TYPE_RETRIEVAL == 'dense':
         doc_embedder = SentenceTransformersDocumentEmbedder(
-             model=cfg.EMBEDDINGS)
+            model=cfg.EMBEDDINGS)
         doc_embedder.warm_up()
 
         docs_with_embeddings = doc_embedder.run(docs)

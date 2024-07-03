@@ -48,15 +48,16 @@ def create_gt_answer_data() -> List[str]:
 
 
 def create_gt_data() -> Dict[str, str]:
-    """Create a dict with a wonder question and its ground truth answer"""
+    """Create a dict with a wonder question and its ground truth answer."""
     gt_answers = create_gt_answer_data()
     questions = create_question_data()
     quest_gt_answers = {}
-    
+
     for quest, ans in zip(questions, gt_answers):
         quest_gt_answers[quest] = ans
-    
+
     return quest_gt_answers
+
 
 def create_question_data() -> List[str]:
     """Create utility question data for seven ancient world wonders."""
@@ -70,11 +71,11 @@ def create_question_data() -> List[str]:
                      'When was built the Mausoleum at Halicarnassus?',
                      'What is known about the Statue of Zeus?'
                      ]
-
     return all_questions
 
+
 def create_qui_question_data() -> Tuple:
-    """"Provide seven hard-coded questions user to select"""
+    """Provide seven hard-coded questions user to select."""
     return tuple(create_question_data())
 
 
