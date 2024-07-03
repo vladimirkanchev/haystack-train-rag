@@ -19,20 +19,13 @@ def get_result(query: str):
     """Run inference on the rag pipeline."""
     rag_pipeline = select_rag_pipeline()
     eval_pipeline = evaluate_gt_pipeline()
-    rag_answer, retrieved_docs  = run_pipeline(query[0], rag_pipeline)
-    print(type(rag_answer))
-    print(len(rag_answer))
-
-    print(type(retrieved_docs))
-    print(len(retrieved_docs))
-    print(type(query))
-    print(len(query))
+    rag_answer, retrieved_docs = run_pipeline(query[0], rag_pipeline)
 
     results = eval_pipeline.run({
         "faithfulness": {"questions": [query],
                          "contexts": [retrieved_docs],
                          "predicted_answers": [rag_answer]},
-        }
+    }
     )
 
     return rag_answer, results['faithfulness']['score']
@@ -76,11 +69,6 @@ def enter_wonder_question() -> None:
             # Update the session state for the parameter text
             st.session_state.parm_text = f"faithfulness: {faithfulness_value}"
             st.rerun()
-
-
-def compute_parameter() -> float:
-    """Compute evaluation metrics faithfulness."""
-    pass
 
 
 def run() -> None:

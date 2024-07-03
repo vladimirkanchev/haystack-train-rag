@@ -1,4 +1,5 @@
 """Application file for fastapi endpoint for the rag algorithm."""
+import json
 import os
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -6,7 +7,6 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import box
 from dotenv import load_dotenv, find_dotenv
-import json
 from fastapi import FastAPI, Request, Response, Form, HTTPException
 from fastapi.templating import Jinja2Templates
 from fastapi.encoders import jsonable_encoder
