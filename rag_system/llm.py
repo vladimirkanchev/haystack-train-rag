@@ -2,6 +2,8 @@
 import os
 from pathlib import Path
 import sys
+# Add the parent directory to the sys.path
+
 
 import box
 from dotenv import load_dotenv, find_dotenv
@@ -14,7 +16,7 @@ PACKAGE_ROOT = Path(os.path.abspath(os.path.dirname(__file__)))
 sys.path.append(str(PACKAGE_ROOT))
 load_dotenv(find_dotenv())
 
-with open('config.yml', 'r', encoding='utf8') as ymlfile:
+with open('rag_system/config.yml', 'r', encoding='utf8') as ymlfile:
     cfg = box.Box(yaml.safe_load(ymlfile))
 
 

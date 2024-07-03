@@ -10,7 +10,7 @@ import yaml
 
 from utils import extract_rag_answer, extract_retrieved_docs
 
-with open('config.yml', 'r', encoding='utf8') as ymlfile:
+with open('rag_system/config.yml', 'r', encoding='utf8') as ymlfile:
     cfg = box.Box(yaml.safe_load(ymlfile))
 
 

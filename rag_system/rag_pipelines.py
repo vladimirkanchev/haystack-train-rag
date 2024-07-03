@@ -20,7 +20,7 @@ from wrapper_prompts import setup_prompt
 from retrievers import setup_single_retriever
 from retrievers import setup_hyrbrid_retriever
 
-with open('config.yml', 'r', encoding='utf8') as ymlfile:
+with open('rag_system/config.yml', 'r', encoding='utf8') as ymlfile:
     cfg = box.Box(yaml.safe_load(ymlfile))
 
 

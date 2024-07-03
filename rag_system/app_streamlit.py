@@ -1,10 +1,14 @@
 """An entrypoint file streamlit gui of seven wonders app."""
 import os
 import sys
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+# Add the parent directory to the sys.path
+parent_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.abspath(os.path.join(parent_dir, os.pardir)))
 
 import streamlit as st
 
+
+from eval_pipelines import evaluate_gt_pipeline
 from inference import run_pipeline
 from rag_pipelines import select_rag_pipeline
 from utils import create_gt_data
@@ -14,9 +18,24 @@ from utils import create_qui_question_data
 def get_result(query: str):
     """Run inference on the rag pipeline."""
     rag_pipeline = select_rag_pipeline()
-    rag_answer, _ = run_pipeline(query, rag_pipeline)
+    eval_pipeline = evaluate_gt_pipeline()
+    rag_answer, retrieved_docs  = run_pipeline(query[0], rag_pipeline)
+    print(type(rag_answer))
+    print(len(rag_answer))
 
-    return rag_answer
+    print(type(retrieved_docs))
+    print(len(retrieved_docs))
+    print(type(query))
+    print(len(query))
+
+    results = eval_pipeline.run({
+        "faithfulness": {"questions": [query],
+                         "contexts": [retrieved_docs],
+                         "predicted_answers": [rag_answer]},
+        }
+    )
+
+    return rag_answer, results['faithfulness']['score']
 
 
 def enter_wonder_question() -> None:
@@ -32,12 +51,15 @@ def enter_wonder_question() -> None:
         st.session_state["val1"] = ""
     if "val2" not in st.session_state:
         st.session_state["val2"] = ""
+    if 'parm_text' not in st.session_state:
+        st.session_state.parm_text = "faithfulness: "
 
     with right_column:
         st.text_area("AI generated answer", value=st.session_state["val1"],
                      height=200)
         st.text_area("Ground truth answer", value=st.session_state["val2"],
                      height=200)
+        st.write(st.session_state.parm_text)
 
     with left_column:
         query = st.selectbox(
@@ -48,13 +70,16 @@ def enter_wonder_question() -> None:
         st.write("You selected:", query)
         if st.button("Ask AI"):
             # Update the two text area with content
-            st.session_state["val1"] = get_result(query)
+            rag_answer, faithfulness_value = get_result(query)
+            st.session_state["val1"] = rag_answer
             st.session_state["val2"] = ground_truth_data[query]
+            # Update the session state for the parameter text
+            st.session_state.parm_text = f"faithfulness: {faithfulness_value}"
             st.rerun()
 
 
-def output_metrics() -> None:
-    """Compute evaluation metrics of rag ai algorithm."""
+def compute_parameter() -> float:
+    """Compute evaluation metrics faithfulness."""
     pass
 
 
