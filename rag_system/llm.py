@@ -14,7 +14,7 @@ PACKAGE_ROOT = Path(os.path.abspath(os.path.dirname(__file__)))
 sys.path.append(str(PACKAGE_ROOT))
 load_dotenv(find_dotenv())
 
-with open('rag_system/config.yml', 'r', encoding='utf8') as ymlfile:
+with open('config.yml', 'r', encoding='utf8') as ymlfile:
     cfg = box.Box(yaml.safe_load(ymlfile))
 
 

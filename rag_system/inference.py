@@ -1,12 +1,16 @@
 """Run inference of the rag pipeline."""
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 from haystack import Pipeline
 
 import box
 import yaml
 
-from .utils import extract_rag_answer, extract_retrieved_docs
+from utils import extract_rag_answer, extract_retrieved_docs
 
-with open('rag_system/config.yml', 'r', encoding='utf8') as ymlfile:
+with open('config.yml', 'r', encoding='utf8') as ymlfile:
     cfg = box.Box(yaml.safe_load(ymlfile))
 
 
@@ -53,5 +57,5 @@ def run_pipeline(query: str, rag_pipeline: Pipeline) -> Pipeline:
 
     rag_answer = extract_rag_answer(response_rag)
     retrieved_docs = extract_retrieved_docs(response_rag)
-    print(retrieved_docs)
+
     return rag_answer, retrieved_docs

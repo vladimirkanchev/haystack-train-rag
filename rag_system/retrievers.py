@@ -6,7 +6,7 @@ from haystack.components.retrievers.in_memory import InMemoryBM25Retriever
 from haystack.components.retrievers.in_memory import InMemoryEmbeddingRetriever
 import yaml
 
-with open('rag_system/config.yml', 'r', encoding='utf8') as ymlfile:
+with open('config.yml', 'r', encoding='utf8') as ymlfile:
     cfg = box.Box(yaml.safe_load(ymlfile))
 
 

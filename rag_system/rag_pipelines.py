@@ -1,4 +1,8 @@
 """Contain wrapper function of separater rag pipeline components."""
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 from haystack import Pipeline
 from haystack.components.builders.answer_builder import AnswerBuilder
 from haystack.components.joiners import DocumentJoiner
@@ -8,15 +12,15 @@ from haystack.document_stores.in_memory import InMemoryDocumentStore
 import box
 import yaml
 
-from .llm import setup_single_llm
-from .ingest import load_data_into_store
+from llm import setup_single_llm
+from ingest import load_data_into_store
 
-from .embedders import setup_embedder
-from .wrapper_prompts import setup_prompt
-from .retrievers import setup_single_retriever
-from .retrievers import setup_hyrbrid_retriever
+from embedders import setup_embedder
+from wrapper_prompts import setup_prompt
+from retrievers import setup_single_retriever
+from retrievers import setup_hyrbrid_retriever
 
-with open('rag_system/config.yml', 'r', encoding='utf8') as ymlfile:
+with open('config.yml', 'r', encoding='utf8') as ymlfile:
     cfg = box.Box(yaml.safe_load(ymlfile))
 
 
@@ -34,7 +38,7 @@ def setup_no_rag_pipeline() -> Pipeline:
 
     no_rag_pipeline.connect("prompt_builder", "llm")
     no_rag_pipeline.connect("llm.replies", "answer_builder.replies")
-    no_rag_pipeline.draw(path=cfg.PIPELINE_PATH)
+    # no_rag_pipeline.draw(path=cfg.PIPELINE_PATH)
 
     return no_rag_pipeline
 
@@ -64,7 +68,7 @@ def setup_rag_dense_pipeline() -> Pipeline:
     dense_pipeline.connect("llm.replies", "answer_builder.replies")
     dense_pipeline.connect("llm.meta", "answer_builder.meta")
     dense_pipeline.connect("retriever.documents", "answer_builder.documents")
-    dense_pipeline.draw(path=cfg.PIPELINE_PATH)
+    #dense_pipeline.draw(path=cfg.PIPELINE_PATH)
 
     return dense_pipeline
 
@@ -135,7 +139,7 @@ def setup_rag_hybrid_pipeline() -> Pipeline:
 def select_rag_pipeline() -> Pipeline:
     """Select type of pipeline to load."""
     rag_pipeline = setup_no_rag_pipeline()
-
+    print(cfg.TYPE_RETRIEVAL)
     if cfg.TYPE_RETRIEVAL == 'dense':
         rag_pipeline = setup_rag_dense_pipeline()
     elif cfg.TYPE_RETRIEVAL == 'sparse':

@@ -1,6 +1,6 @@
 """Construct utility functions to generate useful data."""
 import pickle
-from typing import List, Tuple
+from typing import Dict, List, Tuple
 
 from haystack import Pipeline
 
@@ -47,6 +47,17 @@ def create_gt_answer_data() -> List[str]:
     return all_gt_answers
 
 
+def create_gt_data() -> Dict[str, str]:
+    """Create a dict with a wonder question and its ground truth answer"""
+    gt_answers = create_gt_answer_data()
+    questions = create_question_data()
+    quest_gt_answers = {}
+    
+    for quest, ans in zip(questions, gt_answers):
+        quest_gt_answers[quest] = ans
+    
+    return quest_gt_answers
+
 def create_question_data() -> List[str]:
     """Create utility question data for seven ancient world wonders."""
     all_questions = ['What does The Temple of Artemis at Ephesus look like?',
@@ -61,6 +72,10 @@ def create_question_data() -> List[str]:
                      ]
 
     return all_questions
+
+def create_qui_question_data() -> Tuple:
+    """"Provide seven hard-coded questions user to select"""
+    return tuple(create_question_data())
 
 
 def save_eval_data(rag_answers: List[str], retrieved_docs: List[List[str]]) \
