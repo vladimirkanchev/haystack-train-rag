@@ -22,7 +22,7 @@ with open('rag_system/config.yml', 'r', encoding='utf8') as ymlfile:
     cfg = box.Box(yaml.safe_load(ymlfile))
 
 
-def load_data_into_store():
+def load_data_into_store() -> InMemoryDocumentStore:
     """Load and embed data into the in-memory document store."""
     document_store = InMemoryDocumentStore()
     dataset = load_dataset(cfg.DATA_SET, split="train")
@@ -33,10 +33,8 @@ def load_data_into_store():
         doc_embedder = SentenceTransformersDocumentEmbedder(
             model=cfg.EMBEDDINGS)
         doc_embedder.warm_up()
-
         docs_with_embeddings = doc_embedder.run(docs)
         final_docs = docs_with_embeddings["documents"]
-        print(final_docs)
     elif cfg.TYPE_RETRIEVAL == 'sparse':
         final_docs = docs
     elif cfg.TYPE_RETRIEVAL == 'hybrid':

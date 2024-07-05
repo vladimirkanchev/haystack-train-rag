@@ -1,14 +1,17 @@
 """Run inference of the rag pipeline."""
 import os
+from pathlib import Path
 import sys
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
+PACKAGE_ROOT = Path(os.path.abspath(os.path.dirname(__file__))).parent
+
+sys.path.append(str(PACKAGE_ROOT))
 from haystack import Pipeline
 
 import box
 import yaml
 
-from utils import extract_rag_answer, extract_retrieved_docs
+from rag_system.utils import extract_rag_answer, extract_retrieved_docs
 
 with open('rag_system/config.yml', 'r', encoding='utf8') as ymlfile:
     cfg = box.Box(yaml.safe_load(ymlfile))

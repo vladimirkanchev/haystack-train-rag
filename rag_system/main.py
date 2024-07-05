@@ -8,17 +8,17 @@ import box
 from dotenv import find_dotenv, load_dotenv
 import yaml
 
-PACKAGE_ROOT = Path(os.path.abspath(os.path.dirname(__file__)))
+PACKAGE_ROOT = Path(os.path.abspath(os.path.dirname(__file__))).parent
 sys.path.append(str(PACKAGE_ROOT))
 
 with open('rag_system/config.yml', 'r', encoding='utf8') as ymlfile:
     cfg = box.Box(yaml.safe_load(ymlfile))
 
-from .evaluate import build_rag_eval_report, evaluate_rag
-from .inference import run_pipeline
-from .rag_pipelines import select_rag_pipeline
-from .utils import create_gt_answer_data, create_question_data
-from .utils import load_eval_data, save_eval_data
+from rag_system.evaluate import build_rag_eval_report, evaluate_rag
+from rag_system.inference import run_pipeline
+from rag_system.rag_pipelines import select_rag_pipeline
+from rag_system.utils import create_gt_answer_data, create_question_data
+from rag_system.utils import load_eval_data, save_eval_data
 
 load_dotenv(find_dotenv())
 

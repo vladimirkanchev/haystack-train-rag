@@ -1,7 +1,4 @@
 """Contain wrapper function of separater rag pipeline components."""
-import os
-import sys
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from haystack import Pipeline
 from haystack.components.builders.answer_builder import AnswerBuilder

@@ -1,9 +1,12 @@
 """Application file for fastapi endpoint for the rag algorithm."""
 import json
 import os
+from pathlib import Path
 import sys
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from typing import Tuple, List
 
+PACKAGE_ROOT = Path(os.path.abspath(os.path.dirname(__file__))).parent
+sys.path.append(str(PACKAGE_ROOT))
 
 import box
 from dotenv import load_dotenv, find_dotenv
@@ -14,6 +17,7 @@ import yaml
 
 from rag_system.inference import run_pipeline
 from rag_system.rag_pipelines import select_rag_pipeline
+
 
 load_dotenv(find_dotenv())
 
@@ -26,13 +30,12 @@ app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 
 
-def get_result(query: str):
+def get_result_fastapi(query: str) -> Tuple[str, List[str]]:
     """Run inference on the rag pipeline."""
     rag_pipeline = select_rag_pipeline()
     rag_answer, retrieved_docs = run_pipeline(query, rag_pipeline)
 
     return rag_answer, retrieved_docs
-
 
 @app.get("/")
 async def index(request: Request):
@@ -45,7 +48,7 @@ async def get_answer(request: Request, question: str = Form(...)):
     """Load output result of the inference of the rag algorithm."""
     if not question:
         raise HTTPException(status_code=404)
-    answer, relevant_documents = get_result(question)
+    answer, relevant_documents = get_result_fastapi(question)
     response_data = jsonable_encoder(json.dumps(
         {"answer": answer,
          "relevant_documents": relevant_documents

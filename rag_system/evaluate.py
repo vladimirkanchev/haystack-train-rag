@@ -1,4 +1,6 @@
 """Contain functions to evaluate rag algorithm."""
+import os
+import sys
 from typing import List, Dict, Tuple
 
 from haystack.evaluation.eval_run_result import EvaluationRunResult
@@ -6,6 +8,8 @@ import pandas as pd
 
 import box
 import yaml
+
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from .eval_pipelines import evaluate_gt_pipeline
 

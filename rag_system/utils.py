@@ -1,6 +1,12 @@
 """Construct utility functions to generate useful data."""
+import os
+from pathlib import Path
 import pickle
+import sys
 from typing import Dict, List, Tuple
+
+PACKAGE_ROOT = Path(os.path.abspath(os.path.dirname(__file__))).parent
+sys.path.append(str(PACKAGE_ROOT))
 
 from haystack import Pipeline
 
@@ -98,12 +104,12 @@ def load_eval_data() -> Tuple[List[str], List[List[str]]]:
     return rag_answers, retrieved_docs
 
 
-def extract_rag_answer(response_rag: Pipeline):
+def extract_rag_answer(response_rag: Pipeline) -> str:
     """Extract rag answer from pipeline response."""
     return response_rag["answer_builder"]["answers"][0].data
 
 
-def extract_retrieved_docs(response_rag: Pipeline):
+def extract_retrieved_docs(response_rag: Pipeline) -> List[str]:
     """Extract retrieved documents from pipeline response."""
     retrieved_docs = []
     retrieved_raw_docs = response_rag["answer_builder"][
@@ -112,3 +118,7 @@ def extract_retrieved_docs(response_rag: Pipeline):
         retrieved_docs.append(docs.content)
 
     return retrieved_docs
+
+
+
+
