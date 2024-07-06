@@ -1,11 +1,6 @@
 """An entrypoint file streamlit gui of seven wonders app."""
-import os
-from pathlib import Path
-import sys
 from typing import Tuple
 
-PACKAGE_ROOT = Path(os.path.abspath(os.path.dirname(__file__))).parent
-sys.path.append(str(PACKAGE_ROOT))
 import streamlit as st
 
 from rag_system.eval_pipelines import evaluate_gt_pipeline
@@ -17,6 +12,7 @@ from rag_system.utils import create_qui_question_data
 NUM_COLS = 2
 PARAMS = ["faithfulness: "]
 VALS_STR = ['val1', 'val2']
+
 
 def get_result_streamlit(query: str) -> Tuple[str, float]:
     """Run inference on the rag pipeline."""
@@ -34,7 +30,7 @@ def get_result_streamlit(query: str) -> Tuple[str, float]:
 
 
 def initialize() -> None:
-    """Initialize streamlit guis areas."""    
+    """Initialize streamlit guis areas."""
     if VALS_STR[0] not in st.session_state:
         st.session_state[VALS_STR[0]] = ""
     if VALS_STR[1] not in st.session_state:
@@ -49,7 +45,7 @@ def enter_wonder_question() -> None:
 
     question_gui_data = create_qui_question_data()
     ground_truth_data = create_gt_data()
-    initialize() 
+    initialize()
 
     left_column, right_column = st.columns(NUM_COLS)
     with right_column:
@@ -80,6 +76,7 @@ def enter_wonder_question() -> None:
 def run() -> None:
     """Run streamlit gui application for ai rag answering."""
     enter_wonder_question()
+    # cli.main_run(["app_streamlit.py", "--server.port", "1000"])
 
 
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
+"""Aim to distribute and install Python package of the rag system."""
 import io
 import os
-from pathlib import Path
 
 from setuptools import find_packages, setup
 
@@ -14,25 +14,27 @@ REQUIRES_PYTHON = '>=3.10'
 
 pwd = os.path.abspath(os.path.dirname(__file__))
 
-# Get the list of packages to be installed 
+
 def list_reqs(fname='requirements.txt'):
+    """List packages to be installed."""
     with io.open(os.path.join(pwd, fname), encoding='utf-8') as f:
         return f.read().splitlines()
 
-with open('VERSION') as version_file:
+
+with open('VERSION', encoding="utf-8") as version_file:
     _version = version_file.read().strip()
 
-try:    
-    with io.open(os.path.join(pwd, 'README.md'), encoding='utf-8') as f:
-        long_description = '\n' + f.read()
+try:
+    with io.open(os.path.join(pwd, 'README.md'), encoding='utf-8') as file:
+        LONG_DESCRIPTION = '\n' + file.read()
 except FileNotFoundError:
-    long_description = DESCRIPTION
+    LONG_DESCRIPTION = DESCRIPTION
 
 setup(
     name=NAME,
     version=_version,
     description=DESCRIPTION,
-    long_description=long_description,
+    long_description=LONG_DESCRIPTION,
     long_description_content_type='text/markdown',
     author=AUTHOR,
     author_email=EMAIL,
@@ -51,9 +53,8 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'start-rag-system=rag_system.app:main',  # Entry point
-        ],
+            'start-rag-system=rag_system.app_fastapi:run',  # Entry point
+            'start-streamlit-app=rag_system.run_app_streamlit:main'
+        ]
     },
-
-
 )

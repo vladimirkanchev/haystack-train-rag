@@ -1,12 +1,6 @@
 """Construct utility functions to generate useful data."""
-import os
-from pathlib import Path
 import pickle
-import sys
 from typing import Dict, List, Tuple
-
-PACKAGE_ROOT = Path(os.path.abspath(os.path.dirname(__file__))).parent
-sys.path.append(str(PACKAGE_ROOT))
 
 from haystack import Pipeline
 
@@ -118,7 +112,3 @@ def extract_retrieved_docs(response_rag: Pipeline) -> List[str]:
         retrieved_docs.append(docs.content)
 
     return retrieved_docs
-
-
-
-

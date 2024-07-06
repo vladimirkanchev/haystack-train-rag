@@ -1,23 +1,17 @@
 """Application file for fastapi endpoint for the rag algorithm."""
 import json
-import os
-from pathlib import Path
-import sys
 from typing import Tuple, List
-
-PACKAGE_ROOT = Path(os.path.abspath(os.path.dirname(__file__))).parent
-sys.path.append(str(PACKAGE_ROOT))
 
 import box
 from dotenv import load_dotenv, find_dotenv
 from fastapi import FastAPI, Request, Response, Form, HTTPException
 from fastapi.templating import Jinja2Templates
 from fastapi.encoders import jsonable_encoder
+import uvicorn
 import yaml
 
 from rag_system.inference import run_pipeline
 from rag_system.rag_pipelines import select_rag_pipeline
-
 
 load_dotenv(find_dotenv())
 
@@ -36,6 +30,7 @@ def get_result_fastapi(query: str) -> Tuple[str, List[str]]:
     rag_answer, retrieved_docs = run_pipeline(query, rag_pipeline)
 
     return rag_answer, retrieved_docs
+
 
 @app.get("/")
 async def index(request: Request):
@@ -60,11 +55,11 @@ async def get_answer(request: Request, question: str = Form(...)):
     return res
 
 
-def main():
+def run():
     """Start a fastapi server."""
-    import uvicorn
-    uvicorn.run("app:app", host='0.0.0.0', port=8001, reload=True)
+    uvicorn.run("rag_system.app_fastapi:app", host='0.0.0.0', port=8003,
+                reload=True)
 
 
 if __name__ == "__main__":
-    main()
+    run()

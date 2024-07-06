@@ -1,5 +1,4 @@
 """Contain wrapper function of separater rag pipeline components."""
-
 from haystack import Pipeline
 from haystack.components.builders.answer_builder import AnswerBuilder
 from haystack.components.joiners import DocumentJoiner
@@ -9,13 +8,13 @@ from haystack.document_stores.in_memory import InMemoryDocumentStore
 import box
 import yaml
 
-from llm import setup_single_llm
-from ingest import load_data_into_store
+from rag_system.llm import setup_single_llm
+from rag_system.ingest import load_data_into_store
 
-from embedders import setup_embedder
-from wrapper_prompts import setup_prompt
-from retrievers import setup_single_retriever
-from retrievers import setup_hyrbrid_retriever
+from rag_system.embedders import setup_embedder
+from rag_system.wrapper_prompts import setup_prompt
+from rag_system.retrievers import setup_single_retriever
+from rag_system.retrievers import setup_hyrbrid_retriever
 
 with open('rag_system/config.yml', 'r', encoding='utf8') as ymlfile:
     cfg = box.Box(yaml.safe_load(ymlfile))

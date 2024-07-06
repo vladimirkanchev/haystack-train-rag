@@ -1,0 +1,4 @@
+{
+    "python.pythonPath": ".haystack-env/bin/python",
+    "python.linting.pylintPath": ".haystack-env/bin/pylint"
+}

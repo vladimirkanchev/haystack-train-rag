@@ -1,14 +1,6 @@
 """Run inference of the rag pipeline."""
-import os
-from pathlib import Path
-import sys
-
-PACKAGE_ROOT = Path(os.path.abspath(os.path.dirname(__file__))).parent
-
-sys.path.append(str(PACKAGE_ROOT))
-from haystack import Pipeline
-
 import box
+from haystack import Pipeline
 import yaml
 
 from rag_system.utils import extract_rag_answer, extract_retrieved_docs

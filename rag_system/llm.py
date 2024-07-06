@@ -1,10 +1,5 @@
 """Build generators for separate llm models."""
-import os
-from pathlib import Path
-import sys
 from typing import Optional
-# Add the parent directory to the sys.path
-
 
 import box
 from dotenv import load_dotenv, find_dotenv
@@ -13,8 +8,6 @@ from haystack.components.generators import OpenAIGenerator
 from haystack.utils import Secret
 import yaml
 
-PACKAGE_ROOT = Path(os.path.abspath(os.path.dirname(__file__)))
-sys.path.append(str(PACKAGE_ROOT))
 load_dotenv(find_dotenv())
 
 with open('rag_system/config.yml', 'r', encoding='utf8') as ymlfile:

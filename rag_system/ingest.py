@@ -1,8 +1,4 @@
 """Import files to build rag algorithm."""
-from pathlib import Path
-import os
-import sys
-
 from datasets import load_dataset
 from haystack import Document
 from haystack.components.embedders import SentenceTransformersDocumentEmbedder
@@ -12,9 +8,6 @@ from haystack.utils import ComponentDevice
 import box
 from dotenv import load_dotenv, find_dotenv
 import yaml
-
-PACKAGE_ROOT = Path(os.path.abspath(os.path.dirname(__file__))).parent
-sys.path.append(str(PACKAGE_ROOT))
 
 load_dotenv(find_dotenv())
 # Import config vars
