@@ -164,7 +164,7 @@ cython_debug/
 
 report/
 data/
-vscode/
+.vscode/
 __pycache__/
 *.pyc
 *.pyo
