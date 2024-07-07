@@ -40,10 +40,13 @@ setup(
     author_email=EMAIL,
     python_requires=REQUIRES_PYTHON,
     url=URL,
+    include_package_data=True,
     packages=find_packages(),
+    package_data={
+     'rag_system': ['config.yml'],
+    },
     install_requires=list_reqs(),
     extras_require={},
-    include_package_data=True,
     license='Apache License Version 2.0',
     classifiers=[
         'Programming language :: Python :: 3',

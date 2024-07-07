@@ -1,32 +1,15 @@
 """An entrypoint file streamlit gui of seven wonders app."""
 from typing import Tuple
-
+import os
 import streamlit as st
-
-from rag_system.eval_pipelines import evaluate_gt_pipeline
-from rag_system.inference import run_pipeline
-from rag_system.rag_pipelines import select_rag_pipeline
+print(os.getcwd())
+from rag_system.responds import get_respond_streamlit
 from rag_system.utils import create_gt_data
 from rag_system.utils import create_qui_question_data
 
 NUM_COLS = 2
 PARAMS = ["faithfulness: "]
 VALS_STR = ['val1', 'val2']
-
-
-def get_result_streamlit(query: str) -> Tuple[str, float]:
-    """Run inference on the rag pipeline."""
-    rag_pipeline = select_rag_pipeline()
-    eval_pipeline = evaluate_gt_pipeline()
-    rag_answer, retrieved_docs = run_pipeline(query, rag_pipeline)
-    results = eval_pipeline.run({
-        "faithfulness": {"questions": [query],
-                         "contexts": [retrieved_docs],
-                         "predicted_answers": [rag_answer]},
-    }
-    )
-
-    return rag_answer, results['faithfulness']['score']
 
 
 def initialize() -> None:
@@ -66,7 +49,7 @@ def enter_wonder_question() -> None:
         st.write("You selected:", query)
         if st.button("Ask AI"):
             # Update the two text areas and parameter value with content
-            rag_answer, param_value = get_result_streamlit(query)
+            rag_answer, param_value = get_respond_streamlit(query)
             st.session_state[VALS_STR[0]] = rag_answer
             st.session_state[VALS_STR[1]] = ground_truth_data[query]
             st.session_state.parm_text = f"{PARAMS[0]}: {param_value}"
@@ -76,7 +59,6 @@ def enter_wonder_question() -> None:
 def run() -> None:
     """Run streamlit gui application for ai rag answering."""
     enter_wonder_question()
-    # cli.main_run(["app_streamlit.py", "--server.port", "1000"])
 
 
 if __name__ == "__main__":

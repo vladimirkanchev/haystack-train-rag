@@ -7,7 +7,7 @@ import streamlit.web.cli as stcli
 def main():
     """Run the streamlit program from within a Python script."""
     sys.argv = ["streamlit", "run", "rag_system/app_streamlit.py",
-                "--server.port", "1024"]
+                "--server.port", "1028"]
     sys.exit(stcli.main())
 
 

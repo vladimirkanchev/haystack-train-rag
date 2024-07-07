@@ -1,8 +1,8 @@
 include *.txt
 include *.md
 include *.py
-recursive-include ./rag_system/*
-
+recursive-include rag_system/*
+recursive-include src/*
 include ./notebooks/*.ipynb
 include VERSION
 include LICENSE
